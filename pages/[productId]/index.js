@@ -1,11 +1,23 @@
-import React from 'react';
+import Product from '../../components/product';
 
-const Product = (product) => {
-  console.log(product);
-  return <div>Product page</div>;
+const ProductPage = (props) => {
+  const { image, title, description, price, rating, category } = props.product;
+  console.log(image, title, description, price, rating, category);
+  return (
+    <div className='px-12'>
+      <Product
+        image={image}
+        title={title}
+        description={description}
+        category={category}
+        price={price}
+        rating={rating}
+      />
+    </div>
+  );
 };
 
-export default Product;
+export default ProductPage;
 
 export async function getStaticProps(context) {
   const productId = context.params.productId;
@@ -13,10 +25,13 @@ export async function getStaticProps(context) {
     `https://fakestoreapi.com/products?id=${productId}`
   );
   const productData = await response.json();
+  const selectedProduct = await productData.find(
+    (item) => item.id == productId
+  );
 
   return {
     props: {
-      product: productData,
+      product: selectedProduct,
     },
   };
 }
