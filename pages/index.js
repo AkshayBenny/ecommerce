@@ -8,7 +8,7 @@ export default function Home(data) {
           console.log(typeof item.image);
           return (
             <Link key={index} href={`/${item.id}`}>
-              <div className='hover:border p-12 hover:border-gray-200 rounded hover:shadow-md transition'>
+              <div className='hover:border boder-white p-12 shadow-sm hover:border-gray-200 rounded hover:shadow-md transition'>
                 <img
                   className='object-cover'
                   src={item.image}

@@ -26,10 +26,10 @@ export async function getStaticPaths() {
   const data = await response.json();
   const paramsArray = [];
   data.map((item) => {
-    paramsArray.push({ params: { id: item.id } });
+    paramsArray.push({ params: { productId: item.id.toString() } });
   });
   return {
     paths: paramsArray,
-    fallback: true,
+    fallback: false,
   };
 }
