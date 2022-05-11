@@ -6,9 +6,9 @@ const cart = ({ cart, products }) => {
 
   return (
     <div>
-      {cart.products.map((product, index) => {
+      {/* {cart.products.map((product, index) => {
         return <div key={index}></div>;
-      })}
+      })} */}
     </div>
   );
 };
@@ -22,25 +22,25 @@ export async function getServerSideProps() {
 
   const userCart = data.find((item) => item.userId == userId);
 
-  const userProductsArray = [];
+  // const userProductsArray = [];
 
-  const myProductFetcher = async (pid) => {
-    const productResponse = await fetch('https://fakestoreapi.com/products');
-    const productData = await productResponse.json();
-    const productId = pid;
-    const myProduct = productData.find((item) => item.id == productId);
-    userProductsArray.push(myProduct);
-  };
+  // const myProductFetcher = async (pid) => {
+  //   const productResponse = await fetch('https://fakestoreapi.com/products');
+  //   const productData = await productResponse.json();
+  //   const productId = pid;
+  //   const myProduct = productData.find((item) => item.id == productId);
+  //   userProductsArray.push(myProduct);
+  // };
 
-  //get the products correspnding to the user
-  //   const userProducts = await userCart.products.map((item) => {
-  //     myProductFetcher(item.productId);
-  //   });
+  // get the products correspnding to the user
+  // const userProducts = await userCart.products.map((item) => {
+  //   myProductFetcher(item.productId);
+  // });
 
   return {
     props: {
       cart: userCart,
-      products: typeof userCart.products,
+      // products: typeof userCart.products,
     },
   };
 }
