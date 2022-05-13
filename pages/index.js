@@ -1,8 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import Decrement from '../components/reducerTest/Decrement';
+import Increment from '../components/reducerTest/Increment';
 export default function Home(data) {
+  const count = useSelector((state) => state.counter.value);
   return (
     <div className='px-6'>
+      <div className='py-12 w-full border rounded'>
+        <p className='text-red-500 uppercase'>this is a test area</p>
+        <div className='flex gap-4 justify-center'>
+          <Increment />
+          <Decrement />
+          <p>{count}</p>
+        </div>
+      </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
         {data.data.map((item, index) => {
           console.log(typeof item.image);

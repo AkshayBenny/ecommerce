@@ -26,7 +26,7 @@ function AuthForm() {
     setIsLogin((prevState) => !prevState);
   }
 
-  async function submitHandler(e) {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
@@ -50,7 +50,7 @@ function AuthForm() {
         console.log(error);
       }
     }
-  }
+  };
 
   return (
     <section>
