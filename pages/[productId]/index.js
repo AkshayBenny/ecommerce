@@ -13,6 +13,8 @@ const ProductPage = (props) => {
         price={price}
         rating={rating}
       />
+
+     
     </div>
   );
 };

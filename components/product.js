@@ -1,6 +1,11 @@
 import React from 'react';
 
 const Product = (props) => {
+
+const addToCartHandler = () => {
+  
+}
+
   return (
     <div className='md:grid grid-cols-2'>
       <img src={props.image} alt={props.title} />
@@ -12,6 +17,12 @@ const Product = (props) => {
         <p>
           {props.rating.rate}({props.rating.count})
         </p>
+        <button
+          onClick={addToCartHandler}
+          className='bg-black text-white px-4 py-2 border-black border hover:bg-white hover:text-black rounded transition'
+        >
+          Add to cart
+        </button>
       </div>
     </div>
   );
