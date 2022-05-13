@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
+// import ReactStars from 'react-stars';
 import Decrement from '../components/reducerTest/Decrement';
 import Increment from '../components/reducerTest/Increment';
 export default function Home(data) {
@@ -17,7 +18,7 @@ export default function Home(data) {
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
         {data.data.map((item, index) => {
-          console.log(typeof item.image);
+          
           return (
             <Link key={index} href={`/${item.id}`}>
               <div className='hover:border boder-white p-12 shadow-sm hover:border-gray-200 rounded hover:shadow-md transition'>
@@ -29,6 +30,12 @@ export default function Home(data) {
                 <h1>{item.title}</h1>
                 <p>${item.price}</p>
                 <div>
+                  {/* <ReactStars
+                    count={item.rating.rate}
+                    // onChange={ratingChanged}
+                    size={24}
+                    color2={'#ffd700'}
+                  /> */}
                   <p>
                     {item.rating.rate}({item.rating.count})
                   </p>

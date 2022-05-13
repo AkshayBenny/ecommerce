@@ -2,7 +2,7 @@ import Product from '../../components/product';
 
 const ProductPage = (props) => {
   const { image, title, description, price, rating, category } = props.product;
-  console.log(image, title, description, price, rating, category);
+  // console.log(image, title, description, price, rating, category);
   return (
     <div className='px-12'>
       <Product
