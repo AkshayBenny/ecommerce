@@ -1,10 +1,8 @@
-import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 
-const connectDB = async () => {
-  try {
-    const db = await mongoose.connect(process.env.MONGO_URI);
-    return db;
-  } catch (error) {
-    console.log(error.message);
-  }
+export const connectToDatabase = async () => {
+  const client = await MongoClient.connect(
+    'mongodb+srv://admin:admin@cluster0.pkllf.mongodb.net/?retryWrites=true&w=majority'
+  );
+  return client;
 };
