@@ -1,10 +1,13 @@
 import Head from 'next/head';
 
 export default function Home() {
-  fetch('/api/products')
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-    
+  try {
+    fetch('http://localhost:3000/api/products')
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  } catch (error) {
+    console.log(error);
+  }
   return (
     <div>
       <Head>
@@ -17,11 +20,10 @@ export default function Home() {
         <h1>Hello World</h1>
       </main>
     </div>
-    //hello world
   );
 }
 export async function getServerSideProps() {
   return {
-    props: {}, // will be passed to the page component as props
+    props: {}, 
   };
 }
