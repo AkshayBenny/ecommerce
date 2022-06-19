@@ -6,7 +6,7 @@ function App() {
   return (
     <div className='App'>
       <Header />
-      <main className='py-8 md:px-24'>
+      <main className='py-8 md:px-24 p-4'>
         <HomePage />
       </main>
       <Footer />
