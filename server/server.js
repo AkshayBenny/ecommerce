@@ -1,5 +1,6 @@
 import express from 'express'
 import products from './data/products.js'
+import connectDB from './config/db.js'
 import cors from 'cors'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
@@ -7,6 +8,8 @@ import dotenv from 'dotenv'
 const app = express()
 app.use(cors())
 dotenv.config()
+connectDB()
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }

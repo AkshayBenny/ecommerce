@@ -9,7 +9,6 @@ const HomePage = () => {
     const fetchAllProducts = async () => {
       try {
         const { data } = await axios.get('http://localhost:5000/api/products')
-        // const data = await response.json()
         setProducts(data)
       } catch (error) {
         throw new Error(error.message)
@@ -17,6 +16,7 @@ const HomePage = () => {
     }
     fetchAllProducts()
   }, [])
+
   return (
     <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-6'>
       {products?.map((product, index) => {
