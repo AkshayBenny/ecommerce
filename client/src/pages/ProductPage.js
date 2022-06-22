@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Rating from '../components/Rating'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProduct } from '../redux/product/productSlice'
+import ReactLoading from 'react-loading'
 
 const ProductPage = () => {
   const { pid } = useParams()
   // const product = products.find((product) => product._id === pid)
+  const { product, isLoading, error } = useSelector((state) => state.product)
+  const dispatch = useDispatch()
 
-  const [product, setProduct] = useState([])
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/products/${pid}`
-        )
+    dispatch(getProduct(pid))
+  }, [pid, dispatch])
 
-        setProduct(data)
-      } catch (error) {
-        throw new Error(error.message)
-      }
-    }
-    fetchProduct()
-  }, [pid])
+  if (error) {
+    return <div>Something went wrong...</div>
+  }
+
+  if (isLoading) {
+    return (
+      <div className='h-screen w-screen max-h-screen max-w-screen flex items-center'>
+        <ReactLoading type={'bubbles'} color={'#6b7280'} className='mx-auto' />
+      </div>
+    )
+  }
 
   if (product) {
     return (
@@ -36,10 +40,12 @@ const ProductPage = () => {
         <div>
           <h1 className=''>{product?.name}</h1>
           <hr />
-          <Rating
-            rating={product?.rating}
-            text={`${product?.numReviews} reviews`}
-          />
+          {product.rating && (
+            <Rating
+              rating={product.rating}
+              text={`${product.numReviews} reviews`}
+            />
+          )}
           <hr />
           <h4>Price: {product.price}$</h4>
           <p>{product?.description}</p>
