@@ -1,6 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import Product from '../models/productModel'
+import Product from '../models/productModel.js'
+
 
 // @desc Fetch all pro ducts
 // @route GET /api/products
@@ -15,7 +16,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 // @desc Fetch a product
 // @route GET /api/products/:id
 // @access Public
-export const getProduct = asyncHandler(async (req, res) => {
+export const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
 
   if (product) {
