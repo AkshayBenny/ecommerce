@@ -9,8 +9,7 @@ export const protect = asyncHandler(async (req, res, next) => {
     try {
       token = fullToken.split(' ')[1]
       let decoded = jwt.verify(token, process.env.JWT_SECRET)
-      req.user = await User.findById(decoded.id).selected('-password') //return everything except the password
-      next()
+      req.user = await User.findById(decoded.id).select('-password') //return everything except the password
     } catch (error) {
       res.status(401).json({ message: 'Not authorized' })
       throw new Error('Invalid token')
