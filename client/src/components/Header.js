@@ -20,7 +20,12 @@ const Header = () => {
         </Link>
         <div className='btn-hover flex justify-center items-center gap-2'>
           {user.name ? (
-            <div onClick={() => dispatch(logOut())}>
+            <div
+              onClick={() => {
+                dispatch(logOut())
+                localStorage.removeItem('userInfo')
+              }}
+            >
               <p className='text-white'>{user.name}</p>
             </div>
           ) : (

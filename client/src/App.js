@@ -7,25 +7,25 @@ import LoginLogoutPage from './pages/LoginLogoutPage'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUserFromLocalStorage } from './redux/user/userSlice'
+
 function App() {
   const dispatch = useDispatch()
+
   useEffect(() => {
     const getUserInfoFromLocalStorage = () => {
-      try {
-        const userInfo = localStorage.getItem('userInfo')
-        if (userInfo) return JSON.parse(userInfo)
-      } catch (e) {
-        console.log(e)
-      }
+      const userInfo = localStorage.getItem('userInfo')
+
+      if (userInfo) return JSON.parse(userInfo)
     }
 
     const userInfo = getUserInfoFromLocalStorage()
-    console.log(userInfo)
-    const { email, password, name, _id, isAdmin } = userInfo
+
     if (userInfo) {
+      const { email, password, name, _id, isAdmin } = userInfo
       dispatch(setUserFromLocalStorage({ email, password, name, _id, isAdmin })) //to get user info from local storage
     }
   }, [dispatch])
+
   return (
     <div className='App'>
       <Header />
