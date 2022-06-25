@@ -3,10 +3,12 @@ import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import { Routes, Route } from 'react-router-dom'
 import ProductPage from './pages/ProductPage'
-import LoginLogoutPage from './pages/LoginLogoutPage'
+import LoginLogoutPage from './pages/RegisterPage'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUserFromLocalStorage } from './redux/user/userSlice'
+import SignInPage from './pages/SignInPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -33,7 +35,8 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} exact />
           <Route path='/product/:pid' element={<ProductPage />} />
-          <Route path='/login' element={<LoginLogoutPage />} />
+          <Route path='/login' element={<SignInPage />} />
+          <Route path='/register' element={<RegisterPage />} />
         </Routes>
       </main>
       <Footer />

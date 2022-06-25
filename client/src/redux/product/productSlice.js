@@ -33,6 +33,6 @@ export const productSlice = createSlice({
   },
 })
 
-// console.log(cartSlice);
+
 
 export default productSlice.reducer

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { loginUser } from '../redux/user/userSlice'
 
-const LoginLogoutPage = () => {
+const SignInPage = () => {
   const { isLoading, error } = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
@@ -34,8 +35,14 @@ const LoginLogoutPage = () => {
         value={password}
       />
       <button type='submit'>Sign In</button>
+      <div className='flex'>
+        <p>New user? </p>{' '}
+        <Link to='/register'>
+          <p className='cursor-pointer hover:underline'>Register</p>
+        </Link>
+      </div>
     </form>
   )
 }
 
-export default LoginLogoutPage
+export default SignInPage

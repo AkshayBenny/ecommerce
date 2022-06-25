@@ -10,8 +10,8 @@ const router = express.Router()
 
 //express-async-handler eliminates the repeated use of trycatch blocks
 
-// @desc Fetch all pro ducts
-// @route GET /api/products
+// @desc Authenticate user
+// @route GET /api/users/login
 // @access Public
 router.post('/login', authUser)
 

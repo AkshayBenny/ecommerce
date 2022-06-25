@@ -56,7 +56,6 @@ export const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
-      test: 'test string',
     })
   } else {
     res.status(400).json({ message: 'Invalid user data' })

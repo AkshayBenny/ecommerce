@@ -25,6 +25,24 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async ({ email, password, name }) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const { data } = await axios.post(
+      'http://localhost:5000/api/users/register',
+      { email, password, name },
+      config
+    )
+    localStorage.setItem('userInfo', JSON.stringify(data))
+    return data
+  }
+)
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -48,8 +66,19 @@ export const userSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+    [registerUser.pending]: (state) => {
+      state.isLoading = true
+    },
+    [registerUser.fulfilled]: (state, action) => {
+      state.isLoading = false
+      state.user = action.payload
+    },
+    [registerUser.rejected]: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
   },
 })
-export const { setUserFromLocalStorage,logOut } = userSlice.actions
+export const { setUserFromLocalStorage, logOut } = userSlice.actions
 
 export default userSlice.reducer
