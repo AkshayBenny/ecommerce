@@ -43,6 +43,27 @@ export const registerUser = createAsyncThunk(
   }
 )
 
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async ({ email, password, name }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.put(
+      'http://localhost:5000/api/users/profile/update',
+      { email, password, name },
+      config
+    )
+    localStorage.setItem('userInfo', JSON.stringify(data))
+    return data
+  }
+)
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -74,6 +95,17 @@ export const userSlice = createSlice({
       state.user = action.payload
     },
     [registerUser.rejected]: (state, action) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+    [updateUser.pending]: (state) => {
+      state.isLoading = true
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.isLoading = false
+      state.user = action.payload
+    },
+    [updateUser.rejected]: (state, action) => {
       state.isLoading = false
       state.error = action.payload
     },

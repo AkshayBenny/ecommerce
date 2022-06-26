@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { setUserFromLocalStorage } from './redux/user/userSlice'
 import SignInPage from './pages/SignInPage'
 import RegisterPage from './pages/RegisterPage'
+import UpdateProfilePage from './pages/UpdateProfilePage'
 
 function App() {
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ function App() {
           <Route path='/product/:pid' element={<ProductPage />} />
           <Route path='/login' element={<SignInPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/profile/update' element={<UpdateProfilePage />} />
         </Routes>
       </main>
       <Footer />
