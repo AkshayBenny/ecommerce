@@ -8,7 +8,7 @@ import {
 import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
-
+//test
 //express-async-handler eliminates the repeated use of trycatch blocks
 
 // @desc Authenticate user
