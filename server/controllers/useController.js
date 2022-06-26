@@ -38,6 +38,26 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
+export const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+  if (user) {
+    user.name = req.body.name
+    user.email = req.body.email
+    user.password = req.body.password
+    user.save()
+    res.send({
+      message: 'User details updated',
+      userInfo: {
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    })
+  } else {
+    res.status(404).json({ message: 'User not found' })
+  }
+})
+
 // @desc Register new user
 // @route POST /api/users/register
 // @access Public
