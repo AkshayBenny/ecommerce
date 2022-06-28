@@ -5,7 +5,7 @@ import { logOut } from '../redux/user/userSlice'
 const Header = () => {
   const { user } = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  console.log(user)
+
   return (
     <header className='sticky top-0 flex justify-between items-center h-24 bg-gray-800 text-white px-4 md:px-24 uppercase'>
       <Link to='/'>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,10 +6,13 @@ import { getProduct } from '../redux/product/productSlice'
 import ReactLoading from 'react-loading'
 
 const ProductPage = () => {
+  const [quantity, setQuantity] = useState(1)
+
   const { pid } = useParams()
   // const product = products.find((product) => product._id === pid)
   const { product, isLoading, error } = useSelector((state) => state.product)
   const dispatch = useDispatch()
+  console.log(product)
 
   useEffect(() => {
     dispatch(getProduct(pid))
@@ -49,6 +52,25 @@ const ProductPage = () => {
           <hr />
           <h4>Price: {product.price}$</h4>
           <p>{product?.description}</p>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              quantity > 1 ? setQuantity(quantity - 1) : setQuantity(quantity)
+            }}
+          >
+            -
+          </button>
+          <p>{quantity}</p>
+          <button
+            onClick={() => {
+              quantity < product.countInStock
+                ? setQuantity(quantity + 1)
+                : setQuantity(quantity)
+            }}
+          >
+            +
+          </button>
         </div>
         <div>
           <button

@@ -4,7 +4,7 @@ import {
   getUserProfile,
   registerUser,
   updateUser,
-} from '../controllers/useController.js'
+} from '../controllers/userController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()

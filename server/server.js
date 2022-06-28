@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import dotenv from 'dotenv'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 const app = express()
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
-
+app.use('/api/cart', cartRoutes)
 
 //error handling
 app.use(notFound)
