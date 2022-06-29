@@ -9,7 +9,7 @@ const router = express.Router()
 // @desc Add to cart
 // @route POST /api/cart/add
 // @access Private
-router.route('/add').put(protect, addToCart)
+router.route('/add').post(protect, addToCart)
 
 // @desc Remove from cart
 // @route POST /api/cart/remove
