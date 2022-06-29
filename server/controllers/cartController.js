@@ -5,6 +5,7 @@ export const addToCart = asyncHandler(async (req, res) => {
   const { cartItems } = req.body
 
   const user = req.user._id
+  let userCart
 
   const cartExists = await Cart.findOne({ user: user })
   if (cartExists) {
@@ -13,15 +14,16 @@ export const addToCart = asyncHandler(async (req, res) => {
     )
 
     if (productExist) {
-      const userCart = await Cart.findOneAndUpdate(
+      const newQuantity = productExist.quantity + cartItems.quantity
+      userCart = await Cart.findOneAndUpdate(
         {
           user: user,
           'cartItems.product': cartItems.product,
         },
-        { $set: { cartItems: { ...cartItems, quantity: cartItems.quantity } } }
+        { $set: { cartItems: { ...cartItems, quantity: newQuantity } } }
       )
     } else {
-      const userCart = await Cart.findOneAndUpdate(
+      userCart = await Cart.findOneAndUpdate(
         { user: user },
         { $push: { cartItems: cartItems } }
       )
