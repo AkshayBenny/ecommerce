@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Cart from '../models/cartModel.js'
+import Product from '../models/productModel.js'
 
 export const addToCart = asyncHandler(async (req, res) => {
   const { cartItems } = req.body
@@ -47,10 +48,15 @@ export const addToCart = asyncHandler(async (req, res) => {
 
 export const getCartItems = asyncHandler(async (req, res) => {
   const user = req.user._id
-
+  const userProducts = []
   try {
     const userCart = await Cart.findOne({ user: user })
-    res.status(200).json(userCart)
+    for (var i = 0; i < userCart.cartItems.length; i++) {
+      let productId = userCart.cartItems[i].product
+      let product = await Product.findOne({ _id: productId })
+      userProducts.push(product)
+    }
+    res.status(200).json({ userProducts })
   } catch (error) {
     res.json({ message: 'Could not find cart' })
   }

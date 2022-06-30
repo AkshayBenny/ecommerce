@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 // import cartItems from '../../cartItems';
 
-const url = 'http://localhost:5000/api/cart/add'
-
 const initialState = {
   cartItems: [],
   quantity: 0,
@@ -12,7 +10,7 @@ const initialState = {
 }
 
 export const addToCart = createAsyncThunk(
-  'cart/getCartItems',
+  'cart/addToCart',
   async ({ cartItems }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
@@ -22,11 +20,33 @@ export const addToCart = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.post(url, { cartItems }, config)
-    localStorage.setItem('cart', JSON.stringify(data))
+    const { data } = await axios.post(
+      'http://localhost:5000/api/cart/add',
+      { cartItems },
+      config
+    )
+
     return data
   }
 )
+
+export const getCart = createAsyncThunk('cart/getCart', async () => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const token = userInfo.token
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const { data } = await axios.get(
+    'http://localhost:5000/api/cart',
+
+    config
+  )
+  localStorage.setItem('cart', JSON.stringify(data))
+  return data
+})
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -71,9 +91,18 @@ export const cartSlice = createSlice({
     },
     [addToCart.fulfilled]: (state, action) => {
       state.isLoading = false
-      state.cartItems = action.payload
     },
     [addToCart.rejected]: (state) => {
+      state.isLoading = true
+    },
+    [getCart.pending]: (state) => {
+      state.isLoading = true
+    },
+    [getCart.fulfilled]: (state, action) => {
+      state.isLoading = false
+      state.cartItems = action.payload
+    },
+    [getCart.rejected]: (state) => {
       state.isLoading = true
     },
   },
