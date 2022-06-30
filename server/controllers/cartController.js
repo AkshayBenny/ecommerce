@@ -42,3 +42,16 @@ export const addToCart = asyncHandler(async (req, res) => {
   }
   // res.status(201).json(userCart)
 })
+
+//add controller here to increase or decrease the quantity
+
+export const getCartItems = asyncHandler(async (req, res) => {
+  const user = req.user._id
+
+  try {
+    const userCart = await Cart.findOne({ user: user })
+    res.status(200).json(userCart)
+  } catch (error) {
+    res.json({ message: 'Could not find cart' })
+  }
+})

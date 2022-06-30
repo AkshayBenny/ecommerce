@@ -4,6 +4,7 @@ import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../redux/product/productSlice'
 import ReactLoading from 'react-loading'
+import { addToCart } from '../redux/cart/cartSlice'
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1)
@@ -12,7 +13,15 @@ const ProductPage = () => {
   // const product = products.find((product) => product._id === pid)
   const { product, isLoading, error } = useSelector((state) => state.product)
   const dispatch = useDispatch()
-  console.log(product)
+
+  const addToCartHandler = () => {
+    const cartItems = {
+      product: pid,
+      quantity: quantity,
+      price: product.price * quantity,
+    }
+    dispatch(addToCart({ cartItems }))
+  }
 
   useEffect(() => {
     dispatch(getProduct(pid))
@@ -76,6 +85,7 @@ const ProductPage = () => {
           <button
             disabled={product.countInStock === 0}
             className='bg-black text-white px-4 py-2 hover:text-gray-300 transition disabled:bg-gray-700 disabled:cursor-not-allowed'
+            onClick={addToCartHandler}
           >
             Add to cart
           </button>

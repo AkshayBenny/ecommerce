@@ -6,17 +6,20 @@ const url = 'http://localhost:5000/api/cart/add'
 
 const initialState = {
   cartItems: [],
-  amount: 0,
+  quantity: 0,
   total: 0,
   isLoading: true,
 }
 
-export const getCartItems = createAsyncThunk(
+export const addToCart = createAsyncThunk(
   'cart/getCartItems',
   async ({ cartItems }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     }
     const { data } = await axios.post(url, { cartItems }, config)
@@ -41,36 +44,36 @@ export const cartSlice = createSlice({
       const cartItem = state.cartItems.find(
         (item) => item.id === action.payload
       )
-      cartItem.amount += 1
+      cartItem.quantity += 1
     },
     decrease: (state, action) => {
       const cartItem = state.cartItems.find(
         (item) => item.id === action.payload
       )
-      if (cartItem.amount > 1) {
-        cartItem.amount -= 1
+      if (cartItem.quantity > 1) {
+        cartItem.quantity -= 1
       }
     },
     calculateTotals: (state) => {
-      let amount = 0
+      let quantity = 0
       let total = 0
       state.cartItems.forEach((item) => {
-        amount += item.amount
-        total += item.amount * item.price
+        quantity += item.quantity
+        total += item.quantity * item.price
       })
-      state.amount = amount
+      state.quantity = quantity
       state.total = total
     },
   },
   extraReducers: {
-    [getCartItems.pending]: (state) => {
+    [addToCart.pending]: (state) => {
       state.isLoading = true
     },
-    [getCartItems.fulfilled]: (state, action) => {
+    [addToCart.fulfilled]: (state, action) => {
       state.isLoading = false
       state.cartItems = action.payload
     },
-    [getCartItems.rejected]: (state) => {
+    [addToCart.rejected]: (state) => {
       state.isLoading = true
     },
   },
