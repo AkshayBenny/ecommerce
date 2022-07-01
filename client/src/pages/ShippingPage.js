@@ -1,7 +1,14 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import CheckoutSteps from '../components/CheckoutSteps'
-import { setPaymentMode, setShippingDetails } from '../redux/order/orderSlice'
+import {
+  setPaymentMode,
+  setUserAddress,
+  setUserCity,
+  setUserPostalCode,
+  setUserCountry,
+} from '../redux/order/orderSlice'
 
 const ShippingPage = () => {
   const [address, setAddress] = useState('')
@@ -11,18 +18,21 @@ const ShippingPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('PayPal')
 
   const dispatch = useDispatch()
+
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(setShippingDetails({ address, city, postalCode, country }))
+
     dispatch(setPaymentMode(paymentMethod))
+    dispatch(setUserAddress(address))
+    dispatch(setUserCity(city))
+    dispatch(setUserPostalCode(postalCode))
+    dispatch(setUserCountry(country))
     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod))
     localStorage.setItem(
       'shippingDetails',
       JSON.stringify({ address, city, postalCode, country })
     )
   }
-
-  // console.log(JSON.parse(localStorage.getItem('shippingDetails')));
 
   return (
     <form onSubmit={submitHandler}>
@@ -59,19 +69,11 @@ const ShippingPage = () => {
           onChange={(e) => setPaymentMethod(e.target.value)}
         />
         PayPal
-        <input
-          type='radio'
-          label='Stripe'
-          id='Stripe'
-          name='paymentMethod'
-          value='Stripe'
-          checked={paymentMethod === 'Stripe'}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-        />
-        Stripe
       </div>
 
-      <button type='submit'>Submit</button>
+      <Link to='/ordersummary'>
+        <button>Submit</button>
+      </Link>
     </form>
   )
 }

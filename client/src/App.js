@@ -13,6 +13,7 @@ import UpdateProfilePage from './pages/UpdateProfilePage'
 import ShippingPage from './pages/ShippingPage'
 import PlaceOrder from './pages/PlaceOrder'
 import CartPage from './pages/CartPage'
+import OrderSummary from './pages/OrderSummary'
 
 function App() {
   const dispatch = useDispatch()
@@ -43,6 +44,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/profile/update' element={<UpdateProfilePage />} />
           <Route path='/shipping' element={<ShippingPage />} />
+          <Route path='/ordersummary' element={<OrderSummary />} />
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/cart' element={<CartPage />} />
         </Routes>

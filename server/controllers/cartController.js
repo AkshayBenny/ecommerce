@@ -44,8 +44,6 @@ export const addToCart = asyncHandler(async (req, res) => {
   // res.status(201).json(userCart)
 })
 
-//add controller here to increase or decrease the quantity
-
 export const getCartItems = asyncHandler(async (req, res) => {
   const user = req.user._id
   const userProducts = []
