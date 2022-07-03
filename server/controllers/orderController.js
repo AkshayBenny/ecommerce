@@ -44,14 +44,11 @@ export const getOrderById = asyncHandler(async (req, res) => {
   const uid = req.user.id
 
   const userOrder = await Order.findById(orderId).populate('user', 'name email')
-  if (uid === userOrder.user._id) {
-    if (userOrder) {
-      res.json({ userOrder })
-    } else {
-      res.status(404).json({ message: 'Order not found' })
-    }
+
+  if (userOrder) {
+    res.json({ userOrder })
   } else {
-    res.status(401).json({ message: 'Unauthorized' })
+    res.status(404).json({ message: 'Order not found' })
   }
 })
 
@@ -83,7 +80,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
       email_address: req.body.payer.email_address,
     }
     const updatedOrder = await userOrder.save()
-    res.json({ updatedOrder }) 
+    res.json({ updatedOrder })
   } else {
     res.json({ message: 'Order not found' })
   }

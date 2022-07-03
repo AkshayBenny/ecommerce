@@ -3,6 +3,10 @@ import axios from 'axios'
 
 const initialState = {
   order: {},
+  orderById: {},
+  updateOrderPaymentStatus: {},
+  upsLoading: false,
+  oidLoading: false,
   address: '',
   city: '',
   postalCode: '',
@@ -47,6 +51,48 @@ export const createOrder = createAsyncThunk(
   }
 )
 
+export const getOrderById = createAsyncThunk(
+  'order/getOrderById',
+  async ({ id }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/order/${id}`,
+      config
+    )
+
+    return data
+  }
+)
+
+export const updateOrderPaymentStatus = createAsyncThunk(
+  'order/updateOrderPaymentStatus',
+  async ({ orderId, paymentStatus }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.put(
+      `http://localhost:5000/api/order/${orderId}`,
+      paymentStatus,
+      config
+    )
+
+    return data
+  }
+)
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
@@ -77,6 +123,26 @@ export const orderSlice = createSlice({
     },
     [createOrder.rejected]: (state) => {
       state.isLoading = true
+    },
+    [getOrderById.pending]: (state) => {
+      state.oidLoading = true
+    },
+    [getOrderById.fulfilled]: (state, action) => {
+      state.oidLoading = false
+      state.orderById = action.payload
+    },
+    [getOrderById.rejected]: (state) => {
+      state.oidLoading = true
+    },
+    [updateOrderPaymentStatus.pending]: (state) => {
+      state.upsLoading = true
+    },
+    [updateOrderPaymentStatus.fulfilled]: (state, action) => {
+      state.upsLoading = false
+      state.orderById = action.payload
+    },
+    [updateOrderPaymentStatus.rejected]: (state) => {
+      state.upsLoading = true
     },
   },
 })

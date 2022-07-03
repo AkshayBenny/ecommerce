@@ -17,7 +17,7 @@ const OrderSummary = () => {
 
   useEffect(() => {
     if (order.order) {
-      navigate(`/${order.order.createdOrder._id}`)
+      navigate(`/order/${order.order.createdOrder._id}`)
     }
   }, [order, navigate])
 
@@ -65,7 +65,10 @@ const OrderSummary = () => {
       <p>Total Price:{total}</p>
       <p>Payment Mode: {paymentMode}</p>
 
-      <button className onClick={clickHandler}>
+      <button
+        className='bg-black text-white px-4 py-2 cursor-pointer'
+        onClick={clickHandler}
+      >
         Place order
       </button>
     </div>
