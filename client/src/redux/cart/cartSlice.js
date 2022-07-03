@@ -100,7 +100,9 @@ export const cartSlice = createSlice({
     },
     [getCart.fulfilled]: (state, action) => {
       state.isLoading = false
-      state.cartItems = action.payload
+      const { userProducts, totalPrice } = action.payload
+      state.cartItems = userProducts
+      state.total = totalPrice
     },
     [getCart.rejected]: (state) => {
       state.isLoading = true

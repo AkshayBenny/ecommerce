@@ -3,6 +3,7 @@ import {
   createOrder,
   getAllOrders,
   getOrderById,
+  updateOrderToPaid,
 } from '../controllers/orderController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
@@ -17,6 +18,11 @@ router.route('/').post(protect, createOrder)
 // @route GET /api/order/:id
 // @access Private
 router.route('/:id').get(protect, getOrderById)
+
+// @desc Get order by id and update the payment status
+// @route GET /api/order/:id/pay
+// @access Private
+router.route('/:id/pay').put(protect, updateOrderToPaid)
 
 // @desc Get all order
 // @route GET /api/order/

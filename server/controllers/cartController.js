@@ -47,6 +47,7 @@ export const addToCart = asyncHandler(async (req, res) => {
 export const getCartItems = asyncHandler(async (req, res) => {
   const user = req.user._id
   const userProducts = []
+  let totalPrice = 0
   try {
     const userCart = await Cart.findOne({ user: user })
     for (var i = 0; i < userCart.cartItems.length; i++) {
@@ -54,8 +55,9 @@ export const getCartItems = asyncHandler(async (req, res) => {
       let productId = userCartItems.product
       let product = await Product.findOne({ _id: productId })
       userProducts.push({ product, userCartItems })
+      totalPrice += product.price * userCartItems.quantity
     }
-    res.status(200).json({ userProducts })
+    res.status(200).json({ userProducts, totalPrice })
   } catch (error) {
     res.json({ message: 'Could not find cart' })
   }

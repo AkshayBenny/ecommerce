@@ -5,32 +5,40 @@ import { getCart } from '../redux/cart/cartSlice'
 import { Link } from 'react-router-dom'
 
 const CartPage = () => {
-  const { cartItems, isLoading } = useSelector((state) => state.cart)
+  const { cartItems, total, isLoading } = useSelector((state) => state.cart)
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getCart())
   }, [dispatch])
-  console.log(cartItems.userProducts)
+
   if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!cartItems) {
+  if (!cartItems || cartItems.length === 0) {
     return <div>No items in cart</div>
   }
 
-  return (
-    <div>
-      {cartItems.userProducts.map((product, index) => {
-        return <CartProduct key={index} product={product} />
-      })}
-      <Link to='/shipping'>
-        <button className='px-4 py-2 bg-black text-white cursor-pointer'>
-          Proceed to checkout
-        </button>
-      </Link>
-    </div>
-  )
+  if (cartItems && cartItems.length > 0) {
+    return (
+      <div className='grid grid-cols-2'>
+        <div>
+          {cartItems?.map((product, index) => {
+            return <CartProduct key={index} product={product.product} />
+          })}
+          <Link to='/shipping'>
+            <button className='px-4 py-2 bg-black text-white cursor-pointer'>
+              Proceed to checkout
+            </button>
+          </Link>
+        </div>
+        <div>
+          <h3>Cart Totals:{total}</h3>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default CartPage

@@ -2,22 +2,28 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCart } from '../redux/cart/cartSlice'
 import { createOrder } from '../redux/order/orderSlice'
+import { useNavigate } from 'react-router-dom'
 
 const OrderSummary = () => {
   const dispatch = useDispatch()
   const { paymentMode, error, isLoading } = useSelector((state) => state.order)
-  const { cartItems } = useSelector((state) => state.cart)
+  const { cartItems, total } = useSelector((state) => state.cart)
+  const { order } = useSelector((state) => state.order)
   const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'))
-  // console.log(cartItems)
-
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getCart())
   }, [dispatch])
 
+  useEffect(() => {
+    if (order.order) {
+      navigate(`/${order.order.createdOrder._id}`)
+    }
+  }, [order, navigate])
+
   //orderItems
   const orderItems = []
-  cartItems?.userProducts?.forEach((product) => {
-    console.log(product)
+  cartItems?.forEach((product) => {
     orderItems.push({
       name: product.product.name,
       qty: product.userCartItems.quantity,
@@ -56,7 +62,9 @@ const OrderSummary = () => {
       <p>City: {shippingDetails.city}</p>
       <p>Postal Code: {shippingDetails.postalCode}</p>
       <p>Country: {shippingDetails.country}</p>
+      <p>Total Price:{total}</p>
       <p>Payment Mode: {paymentMode}</p>
+
       <button className onClick={clickHandler}>
         Place order
       </button>

@@ -14,6 +14,7 @@ import ShippingPage from './pages/ShippingPage'
 import PlaceOrder from './pages/PlaceOrder'
 import CartPage from './pages/CartPage'
 import OrderSummary from './pages/OrderSummary'
+import OrderPage from './pages/OrderPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ function App() {
           <Route path='/ordersummary' element={<OrderSummary />} />
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/cart' element={<CartPage />} />
+          <Route path='/order/:id' element={<OrderPage />} />
         </Routes>
       </main>
       <Footer />
