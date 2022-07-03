@@ -11,9 +11,6 @@ const SignInPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
- 
-  
-
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(loginUser({ email, password }))
@@ -32,7 +29,7 @@ const SignInPage = () => {
         value={email}
       />
       <input
-        type='password'
+        type='text'
         placeholder='password'
         onChange={(e) => setPassword(e.target.value)}
         value={password}

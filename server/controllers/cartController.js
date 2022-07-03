@@ -50,9 +50,10 @@ export const getCartItems = asyncHandler(async (req, res) => {
   try {
     const userCart = await Cart.findOne({ user: user })
     for (var i = 0; i < userCart.cartItems.length; i++) {
-      let productId = userCart.cartItems[i].product
+      let userCartItems = userCart.cartItems[i]
+      let productId = userCartItems.product
       let product = await Product.findOne({ _id: productId })
-      userProducts.push(product)
+      userProducts.push({ product, userCartItems })
     }
     res.status(200).json({ userProducts })
   } catch (error) {

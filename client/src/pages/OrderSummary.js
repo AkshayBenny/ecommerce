@@ -8,7 +8,7 @@ const OrderSummary = () => {
   const { paymentMode, error, isLoading } = useSelector((state) => state.order)
   const { cartItems } = useSelector((state) => state.cart)
   const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'))
-  console.log(cartItems)
+  // console.log(cartItems)
 
   useEffect(() => {
     dispatch(getCart())
@@ -17,16 +17,16 @@ const OrderSummary = () => {
   //orderItems
   const orderItems = []
   cartItems?.userProducts?.forEach((product) => {
-    // console.log(product)
+    console.log(product)
     orderItems.push({
-      name: product.name,
-      qty: product.qty,
-      image: product.image,
-      price: product.price,
-      product: product._id,
+      name: product.product.name,
+      qty: product.userCartItems.quantity,
+      image: product.product.image,
+      price: product.userCartItems.price,
+      product: product.product._id,
     })
   })
-  
+
   //shippingAddress
   const shippingAddress = {
     address: shippingDetails.address,
