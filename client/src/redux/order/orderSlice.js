@@ -85,7 +85,7 @@ export const updateOrderPaymentStatus = createAsyncThunk(
       },
     }
     const { data } = await axios.put(
-      `http://localhost:5000/api/order/${orderId}`,
+      `http://localhost:5000/api/order/${orderId}/pay`,
       paymentStatus,
       config
     )

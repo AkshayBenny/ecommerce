@@ -15,6 +15,8 @@ import PlaceOrder from './pages/PlaceOrder'
 import CartPage from './pages/CartPage'
 import OrderSummary from './pages/OrderSummary'
 import OrderPage from './pages/OrderPage'
+import UserListPage from './pages/UserListPage'
+import UserPage from './pages/UserPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -49,6 +51,8 @@ function App() {
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/order/:id' element={<OrderPage />} />
+          <Route path='/admin/users' element={<UserListPage />} />
+          <Route path='/admin/users/:id' element={<UserPage />} />
         </Routes>
       </main>
       <Footer />

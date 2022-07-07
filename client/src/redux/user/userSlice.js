@@ -2,6 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState = {
+  getUserById: {},
+  getUserByIdIsLoading: false,
+  editUser: {},
+  editUserIsLoading: false,
+  userList: [],
+  userListIsLoading: false,
+  deleteUser: {},
+  deleteUserIsLoading: false,
   user: {},
   isLoading: false,
   error: null,
@@ -64,6 +72,88 @@ export const updateUser = createAsyncThunk(
   }
 )
 
+export const getAllUsers = createAsyncThunk('user/getAllUsers', async () => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const token = userInfo.token
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const { data } = await axios.get(
+    'http://localhost:5000/api/users',
+
+    config
+  )
+
+  return data
+})
+
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async ({ id }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.delete(
+      `http://localhost:5000/api/users/${id}`,
+
+      config
+    )
+
+    return data
+  }
+)
+
+export const editUser = createAsyncThunk(
+  'user/editUser',
+  async ({ id, name, email, isAdmin }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.put(
+      `http://localhost:5000/api/users/${id}`,
+      { name, email, isAdmin },
+
+      config
+    )
+
+    return data
+  }
+)
+
+export const getUserById = createAsyncThunk(
+  'user/getUserById',
+  async ({ id }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/users/${id}`,
+
+      config
+    )
+
+    return data
+  }
+)
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -107,6 +197,50 @@ export const userSlice = createSlice({
     },
     [updateUser.rejected]: (state, action) => {
       state.isLoading = false
+      state.error = action.payload
+    },
+    [getAllUsers.pending]: (state) => {
+      state.userListIsLoading = true
+    },
+    [getAllUsers.fulfilled]: (state, action) => {
+      state.userListIsLoading = false
+      state.userList = action.payload
+    },
+    [getAllUsers.rejected]: (state, action) => {
+      state.userListIsLoading = false
+      state.error = action.payload
+    },
+    [deleteUser.pending]: (state) => {
+      state.deleteUserIsLoading = true
+    },
+    [deleteUser.fulfilled]: (state, action) => {
+      state.deleteUserIsLoading = false
+      state.deleteUser = action.payload
+    },
+    [deleteUser.rejected]: (state, action) => {
+      state.deleteUserIsLoading = false
+      state.error = action.payload
+    },
+    [editUser.pending]: (state) => {
+      state.editUserIsLoading = true
+    },
+    [editUser.fulfilled]: (state, action) => {
+      state.editUserIsLoading = false
+      state.editUser = action.payload
+    },
+    [editUser.rejected]: (state, action) => {
+      state.editUserIsLoading = false
+      state.error = action.payload
+    },
+    [getUserById.pending]: (state) => {
+      state.getUserByIdIsLoading = true
+    },
+    [getUserById.fulfilled]: (state, action) => {
+      state.getUserByIdIsLoading = false
+      state.getUserById = action.payload
+    },
+    [getUserById.rejected]: (state, action) => {
+      state.getUserByIdIsLoading = false
       state.error = action.payload
     },
   },

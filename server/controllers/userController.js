@@ -40,11 +40,11 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 
 export const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
- 
+
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
-    
+
     if (req.body.password) {
       user.password = req.body.password
     }
@@ -82,5 +82,66 @@ export const registerUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400).json({ message: 'Invalid user data' })
+  }
+})
+
+// @desc Get all users
+// @route POST /api/users/
+// @access Private/Admin
+export const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+  if (users) {
+    res.send(users)
+  } else {
+    res.status(404).json({ message: 'Users not found' })
+  }
+})
+
+// @desc Delete user
+// @route DELETE /api/users/
+// @access Private/Admin
+export const deleteUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id
+  const users = await User.findById(userId)
+  if (users) {
+    await users.remove()
+    res.status(200).json({ message: 'User deleted' })
+  } else {
+    res.status(404).json({ message: 'Users not found' })
+  }
+})
+
+// @desc Get user by id
+// @route GET /api/users/:id
+// @access Private/Admin
+export const getUserById = asyncHandler(async (req, res) => {
+  const userId = req.params.id
+  const users = await User.findById(userId).select('-password')
+  if (users) {
+    res.status(200).json({ user: users })
+  } else {
+    res.status(404).json({ message: 'Users not found' })
+  }
+})
+
+// @desc Get user by id and update
+// @route PUT /api/users/:id
+// @access Private/Admin
+export const updateUserByAdmin = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+    user.isAdmin = req.body.isAdmin
+    const updatedUser = await user.save()
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    })
+  } else {
+    res.status(404).json({ message: 'User not found' })
   }
 })
