@@ -1,7 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
 
-
 // @desc Fetch all pro ducts
 // @route GET /api/products
 // @access Public
@@ -25,4 +24,44 @@ export const getProductById = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Product not found')
   }
+})
+
+// @desc Fetch all products
+// @route GET /api/admin/products
+// @access Private/Admin
+export const getAllProductsAdmin = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  // res.status(401)
+  // throw new Error('Product not found')
+  res.json(products)
+})
+
+// @desc Fetch all products
+// @route GET /api/admin/products
+// @access Private/Admin
+export const deleteProduct = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  // res.status(401)
+  // throw new Error('Product not found')
+  res.json(products)
+})
+
+// @desc Fetch all products
+// @route GET /api/admin/products
+// @access Private/Admin
+export const getProductByIdAdmin = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  // res.status(401)
+  // throw new Error('Product not found')
+  res.json(products)
+})
+
+// @desc Fetch all products
+// @route GET /api/admin/products
+// @access Private/Admin
+export const updateProductByAdmin = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  // res.status(401)
+  // throw new Error('Product not found')
+  res.json(products)
 })

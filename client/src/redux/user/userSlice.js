@@ -82,7 +82,7 @@ export const getAllUsers = createAsyncThunk('user/getAllUsers', async () => {
     },
   }
   const { data } = await axios.get(
-    'http://localhost:5000/api/users',
+    'http://localhost:5000/api/admin/users',
 
     config
   )
@@ -102,7 +102,7 @@ export const deleteUser = createAsyncThunk(
       },
     }
     const { data } = await axios.delete(
-      `http://localhost:5000/api/users/${id}`,
+      `http://localhost:5000/api/admin/users/${id}`,
 
       config
     )
@@ -123,7 +123,7 @@ export const editUser = createAsyncThunk(
       },
     }
     const { data } = await axios.put(
-      `http://localhost:5000/api/users/${id}`,
+      `http://localhost:5000/api/admin/users/${id}`,
       { name, email, isAdmin },
 
       config
@@ -145,7 +145,7 @@ export const getUserById = createAsyncThunk(
       },
     }
     const { data } = await axios.get(
-      `http://localhost:5000/api/users/${id}`,
+      `http://localhost:5000/api/admin/users/${id}`,
 
       config
     )

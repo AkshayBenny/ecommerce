@@ -17,6 +17,8 @@ import OrderSummary from './pages/OrderSummary'
 import OrderPage from './pages/OrderPage'
 import UserListPage from './pages/UserListPage'
 import UserPage from './pages/UserPage'
+import ProductListPage from './pages/ProductListPage'
+import AddProductPage from './pages/AddProductPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -42,17 +44,23 @@ function App() {
       <main className='py-8 md:px-24 p-4'>
         <Routes>
           <Route path='/' element={<HomePage />} exact />
-          <Route path='/product/:pid' element={<ProductPage />} />
-          <Route path='/login' element={<SignInPage />} />
-          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/product/:pid' element={<ProductPage exact />} />
+          <Route path='/login' element={<SignInPage />} exact />
+          <Route path='/register' element={<RegisterPage />} exact />
           <Route path='/profile/update' element={<UpdateProfilePage />} />
-          <Route path='/shipping' element={<ShippingPage />} />
-          <Route path='/ordersummary' element={<OrderSummary />} />
-          <Route path='/placeorder' element={<PlaceOrder />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/order/:id' element={<OrderPage />} />
-          <Route path='/admin/users' element={<UserListPage />} />
-          <Route path='/admin/users/:id' element={<UserPage />} />
+          <Route path='/shipping' element={<ShippingPage />} exact />
+          <Route path='/ordersummary' element={<OrderSummary />} exact />
+          <Route path='/placeorder' element={<PlaceOrder />} exact />
+          <Route path='/cart' element={<CartPage />} exact />
+          <Route path='/order/:id' element={<OrderPage />} exact />
+          <Route path='/admin/users' element={<UserListPage />} exact />
+          <Route path='/admin/users/:id' element={<UserPage />} exact />
+          <Route path='/admin/products' element={<ProductListPage />} exact />
+          <Route
+            path='/admin/products/:id'
+            element={<AddProductPage />}
+            exact
+          />
         </Routes>
       </main>
       <Footer />

@@ -12,6 +12,11 @@ const router = express.Router()
 // @access Public
 router.route('/').get(getAllProducts)
 
+// @desc Fetch all products for admin
+// @route GET /api/products
+// @access Public
+router.route('/').get()
+
 // @desc Fetch a product
 // @route GET /api/products/:id
 // @access Public
