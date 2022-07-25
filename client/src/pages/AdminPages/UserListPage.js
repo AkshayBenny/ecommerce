@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAllUsers } from '../redux/user/userSlice'
+import { getAllUsers } from '../../redux/user/userSlice'
 
 const UserList = () => {
   const { user, userList, userListIsLoading } = useSelector(
@@ -28,7 +28,7 @@ const UserList = () => {
   if (userListIsLoading) {
     return <div>Loading...</div>
   }
-  console.log(user.isAdmin)
+
   return (
     <div>
       <h1>UserList</h1>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { deleteUser, getUserById, editUser } from '../redux/user/userSlice'
+import { deleteUser, getUserById, editUser } from '../../redux/user/userSlice'
 
 const UserPage = () => {
   const { id } = useParams()

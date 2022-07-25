@@ -12,30 +12,42 @@ const Header = () => {
         <div className='text-3xl hover:cursor-pointer'>A-Shop</div>
       </Link>
       <div className='flex items-center gap-12'>
-        <Link to='/cart'>
-          <div className='btn-hover flex justify-center items-center gap-2'>
-            <ShoppingCartIcon className='h-5' />
-            <p>Cart</p>
-          </div>
-        </Link>
         <div className='btn-hover flex justify-center items-center gap-2'>
-          {user.name ? (
-            <div
-              onClick={() => {
-                dispatch(logOut())
-                localStorage.removeItem('userInfo')
-              }}
-            >
-              <p className='text-white'>{user.name}</p>
-            </div>
-          ) : (
-            <Link to='/login'>
-              <div className='btn-hover flex justify-center items-center gap-2'>
-                <LoginIcon className='h-5' />
-                <p>Login</p>
+          <div>
+            
+            {user.isAdmin && (
+              <div className='flex items-center justify-center gap-3'>
+                <Link to='/admin/products'>Products</Link>
+                <Link to='/admin/users'>Users</Link>
               </div>
-            </Link>
-          )}
+            )}
+          </div>
+          <Link to='/cart'>
+            <div className='btn-hover flex justify-center items-center gap-2'>
+              <ShoppingCartIcon className='h-5' />
+              <p>Cart</p>
+            </div>
+          </Link>
+
+          <div>
+            {user.name ? (
+              <div
+                onClick={() => {
+                  dispatch(logOut())
+                  localStorage.removeItem('userInfo')
+                }}
+              >
+                <p className='text-white'>{user.name}</p>
+              </div>
+            ) : (
+              <Link to='/login'>
+                <div className='btn-hover flex justify-center items-center gap-2'>
+                  <LoginIcon className='h-5' />
+                  <p>Login</p>
+                </div>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>

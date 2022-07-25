@@ -4,6 +4,8 @@ import axios from 'axios'
 const initialState = {
   products: [],
   allProductsAdmin: [],
+  adminProductById:[],
+  adminProductByIdIsLoading:false,
   allProductsAdminIsLoading: false,
   isLoading: false,
   error: null,
@@ -38,6 +40,27 @@ export const getAllProductsAdmin = createAsyncThunk(
   }
 )
 
+export const getProductByIdAdmin = createAsyncThunk(
+  'user/getProductByIdAdmin',
+  async ({id}) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/admin/products/${id}`,
+
+      config
+    )
+
+    return data
+  }
+)
+
 export const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -62,6 +85,17 @@ export const productSlice = createSlice({
     },
     [getAllProductsAdmin.rejected]: (state, action) => {
       state.allProductsAdminIsLoading = false
+      state.error = action.payload
+    },
+    [getProductByIdAdmin.pending]: (state) => {
+      state.adminProductByIdIsLoading = true
+    },
+    [getProductByIdAdmin.fulfilled]: (state, action) => {
+      state.adminProductByIdIsLoading = false
+      state.adminProductById = action.payload
+    },
+    [getProductByIdAdmin.rejected]: (state, action) => {
+      state.adminProductByIdIsLoading = false
       state.error = action.payload
     },
   },

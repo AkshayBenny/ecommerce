@@ -31,8 +31,6 @@ export const getProductById = asyncHandler(async (req, res) => {
 // @access Private/Admin
 export const getAllProductsAdmin = asyncHandler(async (req, res) => {
   const products = await Product.find({})
-  // res.status(401)
-  // throw new Error('Product not found')
   res.json(products)
 })
 
@@ -50,10 +48,19 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 // @route GET /api/admin/products
 // @access Private/Admin
 export const getProductByIdAdmin = asyncHandler(async (req, res) => {
-  const products = await Product.find({})
+  let product
+ try {
+  const product = await Product.findById(req.params.id)
+  if(product){
+   res.json(product)
+  }
+ } catch (error) {
+  res.json({message:"Product not found"})
+ }
+
   // res.status(401)
   // throw new Error('Product not found')
-  res.json(products)
+  res.json(product)
 })
 
 // @desc Fetch all products
