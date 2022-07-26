@@ -1,5 +1,11 @@
 import express from 'express'
-import { deleteProduct, getAllProductsAdmin, getProductByIdAdmin, updateProductByAdmin } from '../controllers/productController.js'
+import {
+  createProduct,
+  deleteProduct,
+  getAllProductsAdmin,
+  getProductByIdAdmin,
+  updateProductByAdmin,
+} from '../controllers/productController.js'
 
 import {
   deleteUser,
@@ -32,7 +38,10 @@ router
 // @desc Get all products
 // @route POST /api/admin/products
 // @access Private/Admin
-router.get('/products', protect, isAdmin, getAllProductsAdmin)
+router
+  .route('/products')
+  .get(protect, isAdmin, getAllProductsAdmin)
+  .post(protect, isAdmin, createProduct)
 
 // @desc Other product routes like delete, put and get by id
 // @route POST /api/admin/products/:id

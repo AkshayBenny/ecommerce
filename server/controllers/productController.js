@@ -47,9 +47,9 @@ export const deleteProduct = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc Fetch all products
-// @route GET /api/admin/products
-// @access Private/Adminproduct._
+// @desc Fetch product by id
+// @route GET /api/admin/products/:id
+// @access Private/Admin
 export const getProductByIdAdmin = asyncHandler(async (req, res) => {
   let product
   try {
@@ -66,12 +66,54 @@ export const getProductByIdAdmin = asyncHandler(async (req, res) => {
   res.json(product)
 })
 
-// @desc Fetch all products
-// @route GET /api/admin/products
+// @desc Create new product
+// @route POST /api/admin/products
+// @access Private/Admin
+export const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    user: req.user._id,
+    name: 'Sample name',
+    image: 'Sample image',
+    brand: 'Sample brand',
+    category: 'Sample category',
+    description: 'Sample description',
+    rating: 3,
+    numreviews: 13,
+    price: 39.99,
+    countInStock: 12,
+  })
+
+  try {
+    const createdProduct = await product.save()
+    res
+      .status(201)
+      .json({ message: 'Product created successfully', createdProduct })
+  } catch (error) {
+    res.status(400).json({ message: 'Product creation failed' })
+  }
+})
+
+// @desc Update product by id
+// @route PUT /api/admin/products/:id
 // @access Private/Admin
 export const updateProductByAdmin = asyncHandler(async (req, res) => {
-  const products = await Product.find({})
-  // res.status(401)
-  // throw new Error('Product not found')
-  res.json(products)
+  const { name, image, brand, category, description, price, countInStock } =
+    req.body
+
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    product.name = name
+    product.image = image
+    product.brand = brand
+    product.category = category
+    product.description = description
+    product.price = price
+    product.countInStock = countInStock
+
+    const updatedProduct = await product.save()
+    res.json({ message: 'Product updated successfully', updatedProduct })
+  } else {
+    res.status(404).json({ message: 'Product not found' })
+  }
 })
