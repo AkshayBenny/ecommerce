@@ -4,8 +4,9 @@ import axios from 'axios'
 const initialState = {
   products: [],
   allProductsAdmin: [],
-  adminProductById:[],
-  adminProductByIdIsLoading:false,
+  adminDeleteProductByIdIsLoading: false,
+  adminProductById: [],
+  adminProductByIdIsLoading: false,
   allProductsAdminIsLoading: false,
   isLoading: false,
   error: null,
@@ -42,7 +43,7 @@ export const getAllProductsAdmin = createAsyncThunk(
 
 export const getProductByIdAdmin = createAsyncThunk(
   'user/getProductByIdAdmin',
-  async ({id}) => {
+  async ({ id }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
     const config = {
@@ -58,6 +59,25 @@ export const getProductByIdAdmin = createAsyncThunk(
     )
 
     return data
+  }
+)
+
+export const adminDeleteProductById = createAsyncThunk(
+  'user/adminDeleteProductById',
+  async (id) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    await axios.delete(
+      `http://localhost:5000/api/admin/products/${id}`,
+
+      config
+    )
   }
 )
 
@@ -96,6 +116,16 @@ export const productSlice = createSlice({
     },
     [getProductByIdAdmin.rejected]: (state, action) => {
       state.adminProductByIdIsLoading = false
+      state.error = action.payload
+    },
+    [adminDeleteProductById.pending]: (state) => {
+      state.adminDeleteProductByIdIsLoading = true
+    },
+    [adminDeleteProductById.fulfilled]: (state, action) => {
+      state.adminDeleteProductByIdIsLoading = false
+    },
+    [adminDeleteProductById.rejected]: (state, action) => {
+      state.adminDeleteProductByIdIsLoading = false
       state.error = action.payload
     },
   },

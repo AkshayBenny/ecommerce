@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { getAllProductsAdmin } from '../../redux/product/productsSlice'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  adminDeleteProductById,
+  getAllProductsAdmin,
+} from '../../redux/product/productsSlice'
 
 const ProductListPage = () => {
-  const { allProductsAdmin, allProductsAdminIsLoading } = useSelector(
-    (state) => state.products
-  )
-
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const {
+    allProductsAdmin,
+    allProductsAdminIsLoading,
+    adminDeleteProductByIdIsLoading,
+  } = useSelector((state) => state.products)
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -18,34 +22,53 @@ const ProductListPage = () => {
     } else {
       navigate('/login')
     }
-  }, [dispatch])
+  }, [dispatch, adminDeleteProductByIdIsLoading])
 
-  if (!allProductsAdminIsLoading) {
-    console.log(allProductsAdmin)
+  const deleteHandler = (e) => {
+    dispatch(adminDeleteProductById(e.target.id))
   }
 
-if(allProductsAdminIsLoading){
-  return <div>
-    <p>Loading...</p>
-  </div>
-}
+  if (allProductsAdminIsLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
-  return <div><p>ProductList</p>
-   <div className='space-y-3'>
+  return (
+    <div>
+      <p>ProductList</p>
+      <div className='space-y-3'>
         {allProductsAdmin?.map((product, index) => {
           return (
-            <div key={index} className='border p-4'>
-             <div> <h2>{product.name}</h2>
-             
-             <Link to={`${product._id}/`}>
-               <button className='bg-gray-500 text-white'>Edit</button>
-             </Link></div>
+            <div key={index} className='border p-4 flex space-x-6 items-center'>
+              <img
+                src={product.image}
+                alt={product.name}
+                className='h-24 w-24 object-cover'
+              />
+              <div>
+                <h2>{product.name}</h2>
+                <div className='gap-2 flex'>
+                  <Link to={`${product._id}/`}>
+                    <button className='bg-black p-2 text-white'>Edit</button>
+                  </Link>
+                  <button
+                    id={product._id}
+                    onClick={deleteHandler}
+                    className='bg-red-500 p-2 text-white'
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           )
         })}
       </div>
-  
-  </div>
+    </div>
+  )
 }
 
 export default ProductListPage
