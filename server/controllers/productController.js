@@ -63,17 +63,17 @@ export const getProductByIdAdmin = asyncHandler(async (req, res) => {
 // @route POST /api/admin/products
 // @access Private/Admin
 export const createProduct = asyncHandler(async (req, res) => {
+  const { name, image, brand, category, description, price, countInStock } =
+    req.body.productData
   const product = new Product({
     user: req.user._id,
-    name: 'Sample name',
-    image: 'Sample image',
-    brand: 'Sample brand',
-    category: 'Sample category',
-    description: 'Sample description',
-    rating: 3,
-    numreviews: 13,
-    price: 39.99,
-    countInStock: 12,
+    name: name,
+    image: image,
+    brand: brand,
+    category: category,
+    description: description,
+    price: price,
+    countInStock: countInStock,
   })
 
   try {

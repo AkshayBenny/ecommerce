@@ -39,6 +39,11 @@ const ProductListPage = () => {
   return (
     <div>
       <p>ProductList</p>
+      <Link to='create-product/'>
+        <button className='p-2 bg-black mx-auto text-white mt-4'>
+          Create Product
+        </button>
+      </Link>
       <div className='space-y-3'>
         {allProductsAdmin?.map((product, index) => {
           return (
@@ -67,11 +72,6 @@ const ProductListPage = () => {
           )
         })}
       </div>
-      <Link to='create-product/'>
-        <button className='p-2 bg-black mx-auto text-white mt-4'>
-          Create Product
-        </button>
-      </Link>
     </div>
   )
 }

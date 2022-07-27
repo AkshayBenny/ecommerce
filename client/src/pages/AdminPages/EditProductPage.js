@@ -86,6 +86,9 @@ const EditProductPage = () => {
             placeholder='Image'
             value={productData?.image}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({ ...prev, image: e.target.value }))
+            }
           />
         </div>
         <div>
@@ -95,6 +98,9 @@ const EditProductPage = () => {
             placeholder='Brand'
             value={productData?.brand}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({ ...prev, brand: e.target.value }))
+            }
           />
         </div>
         <div>
@@ -104,6 +110,9 @@ const EditProductPage = () => {
             placeholder='Category'
             value={productData?.category}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({ ...prev, category: e.target.value }))
+            }
           />
         </div>
         <div>
@@ -113,6 +122,12 @@ const EditProductPage = () => {
             placeholder='Description'
             value={productData?.description}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({
+                ...prev,
+                description: e.target.value,
+              }))
+            }
           />
         </div>
         <div>
@@ -122,6 +137,9 @@ const EditProductPage = () => {
             placeholder='Price'
             value={productData?.price}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({ ...prev, price: e.target.value }))
+            }
           />
         </div>
         <div>
@@ -131,6 +149,12 @@ const EditProductPage = () => {
             placeholder='Count in stock'
             value={productData?.countInStock}
             className='p-4 w-full border-black rounded border-2'
+            onChange={(e) =>
+              setProductData((prev) => ({
+                ...prev,
+                countInStock: e.target.value,
+              }))
+            }
           />
         </div>
         <button className='bg-black p-3 text-white'>Update product</button>
