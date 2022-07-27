@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getProductByIdAdmin } from '../../redux/product/productsSlice'
+import {
+  adminUpdateProduct,
+  getProductByIdAdmin,
+} from '../../redux/product/productsSlice'
 
 const EditProductPage = () => {
   const { id } = useParams()
+
   const { adminProductById, adminProductByIdIsLoading } = useSelector(
     (state) => state.products
   )
@@ -35,12 +39,24 @@ const EditProductPage = () => {
     }
   }, [userInfo])
 
-  const submitHandler = () => {
-    console.log(productData)
-  }
+  useEffect(() => {
+    if (adminProductById) {
+      setProductData({
+        name: adminProductById?.name,
+        image: adminProductById?.image,
+        brand: adminProductById?.brand,
+        category: adminProductById?.category,
+        description: adminProductById?.description,
+        price: adminProductById?.price,
+        countInStock: adminProductById?.countInStock,
+      })
+    }
+  }, [adminProductByIdIsLoading])
 
-  if (!adminProductByIdIsLoading) {
-    console.log(adminProductById)
+  const submitHandler = (e) => {
+    let payload = { id, productData }
+    e.preventDefault()
+    dispatch(adminUpdateProduct(payload))
   }
 
   if (adminProductByIdIsLoading) {
@@ -49,14 +65,14 @@ const EditProductPage = () => {
 
   return (
     <div>
-      <h1>EditProductPage</h1>
+      <h1 className='my-4 text-2xl text-bold'>Edit Product Page</h1>
       <form onSubmit={submitHandler} className=' flex flex-col gap-5'>
         <div>
           <label>Name</label>
           <input
             type='text'
             placeholder='Name'
-            value={adminProductById?.name}
+            value={productData?.name}
             className='p-4 w-full border-black rounded border-2'
             onChange={(e) =>
               setProductData((prev) => ({ ...prev, name: e.target.value }))
@@ -68,7 +84,7 @@ const EditProductPage = () => {
           <input
             type='text'
             placeholder='Image'
-            value={adminProductById?.image}
+            value={productData?.image}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>
@@ -77,7 +93,7 @@ const EditProductPage = () => {
           <input
             type='text'
             placeholder='Brand'
-            value={adminProductById?.brand}
+            value={productData?.brand}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>
@@ -86,7 +102,7 @@ const EditProductPage = () => {
           <input
             type='text'
             placeholder='Category'
-            value={adminProductById?.category}
+            value={productData?.category}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>
@@ -95,7 +111,7 @@ const EditProductPage = () => {
           <textarea
             type='text'
             placeholder='Description'
-            value={adminProductById?.description}
+            value={productData?.description}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>
@@ -104,7 +120,7 @@ const EditProductPage = () => {
           <input
             type='text'
             placeholder='Price'
-            value={adminProductById?.price}
+            value={productData?.price}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>
@@ -113,7 +129,7 @@ const EditProductPage = () => {
           <input
             type='text'
             placeholder='Count in stock'
-            value={adminProductById?.countInStock}
+            value={productData?.countInStock}
             className='p-4 w-full border-black rounded border-2'
           />
         </div>

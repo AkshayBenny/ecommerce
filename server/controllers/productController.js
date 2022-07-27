@@ -51,19 +51,12 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 // @route GET /api/admin/products/:id
 // @access Private/Admin
 export const getProductByIdAdmin = asyncHandler(async (req, res) => {
-  let product
-  try {
-    const product = await Product.findById(req.params.id)
-    if (product) {
-      res.json(product)
-    }
-  } catch (error) {
+  const product = await Product.findById(req.params.id)
+  if (product) {
+    res.json(product)
+  } else {
     res.json({ message: 'Product not found' })
   }
-
-  // res.status(401)
-  // throw new Error('Product not found')
-  res.json(product)
 })
 
 // @desc Create new product
@@ -98,7 +91,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 // @access Private/Admin
 export const updateProductByAdmin = asyncHandler(async (req, res) => {
   const { name, image, brand, category, description, price, countInStock } =
-    req.body
+    req.body.productData
 
   const product = await Product.findById(req.params.id)
 

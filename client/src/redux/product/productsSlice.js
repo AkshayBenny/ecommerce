@@ -84,19 +84,9 @@ export const adminDeleteProductById = createAsyncThunk(
 )
 export const adminUpdateProduct = createAsyncThunk(
   'user/adminUpdateProduct',
-  async ({
-    id,
-    name,
-    image,
-    brand,
-    category,
-    description,
-    rating,
-    price,
-    countInStock,
-  }) => {
+  async ({ id, productData }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    
+
     const token = userInfo.token
     const config = {
       headers: {
@@ -104,9 +94,9 @@ export const adminUpdateProduct = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    await axios.delete(
+    await axios.put(
       `http://localhost:5000/api/admin/products/${id}`,
-
+      {productData},
       config
     )
   }
