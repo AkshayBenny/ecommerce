@@ -51,7 +51,7 @@ const ProductListPage = () => {
               <div>
                 <h2>{product.name}</h2>
                 <div className='gap-2 flex'>
-                  <Link to={`${product._id}/`}>
+                  <Link to={`edit/${product._id}`}>
                     <button className='bg-black p-2 text-white'>Edit</button>
                   </Link>
                   <button
@@ -67,9 +67,11 @@ const ProductListPage = () => {
           )
         })}
       </div>
-      <button className='p-2 bg-black mx-auto text-white mt-4'>
-        Create Product
-      </button>
+      <Link to='create-product/'>
+        <button className='p-2 bg-black mx-auto text-white mt-4'>
+          Create Product
+        </button>
+      </Link>
     </div>
   )
 }

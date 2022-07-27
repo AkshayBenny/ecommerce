@@ -18,6 +18,8 @@ import UserListPage from './pages/AdminPages/UserListPage'
 import UserPage from './pages/AdminPages/UserPage'
 import ProductListPage from './pages/AdminPages/ProductListPage'
 import AddProductPage from './pages/AdminPages/AddProductPage'
+import CreateProduct from './pages/AdminPages/CreateProduct'
+import EditProductPage from './pages/AdminPages/EditProductPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -58,6 +60,16 @@ function App() {
           <Route
             path='/admin/products/:id'
             element={<AddProductPage />}
+            exact
+          />
+          <Route
+            path='/admin/products/create-product'
+            element={<CreateProduct />}
+            exact
+          />
+          <Route
+            path='/admin/products/edit/:id'
+            element={<EditProductPage />}
             exact
           />
         </Routes>
