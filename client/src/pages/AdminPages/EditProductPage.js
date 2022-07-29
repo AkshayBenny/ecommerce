@@ -12,7 +12,6 @@ const EditProductPage = () => {
   const {
     adminProductById,
     adminProductByIdIsLoading,
-    adminUpdateProductRedirect,
     adminUpdateProductIsLoading,
     adminUpdatedProduct,
   } = useSelector((state) => state.products)
@@ -64,7 +63,7 @@ const EditProductPage = () => {
     dispatch(adminUpdateProduct(payload))
   }
 
-  console.log(adminUpdatedProduct)
+ 
 
   useEffect(() => {
     if (adminUpdatedProduct.updatedProduct) {

@@ -6,6 +6,7 @@ const initialState = {
   allProductsAdmin: [],
   adminDeleteProductByIdIsLoading: false,
   adminCreateProduct: {},
+  adminCreatedProduct: {},
   adminCreateProductIsLoading: false,
   adminUpdateProduct: {},
   adminUpdateProductRedirect: false,
@@ -118,11 +119,12 @@ export const adminCreateProduct = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    await axios.post(
+    const { data } = await axios.post(
       `http://localhost:5000/api/admin/products`,
       { productData },
       config
     )
+    return data
   }
 )
 
@@ -130,8 +132,8 @@ export const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setAdminUpdateProductRedirect: (state, action) => {
-      state.adminUpdateProductRedirect = action.payload
+    setAdminCreatedProduct: (state, action) => {
+      state.adminCreatedProduct = action.payload
     },
     setAdminUpdatedProduct: (state, action) => {
       state.adminUpdatedProduct = action.payload
@@ -196,7 +198,7 @@ export const productSlice = createSlice({
     },
     [adminCreateProduct.fulfilled]: (state, action) => {
       state.adminCreateProductIsLoading = false
-      state.adminCreateProductRes = action.payload
+      state.adminCreatedProduct = action.payload
     },
     [adminCreateProduct.rejected]: (state, action) => {
       state.adminCreateProductIsLoading = false
@@ -205,6 +207,6 @@ export const productSlice = createSlice({
   },
 })
 
-export const { setAdminUpdateProductRedirect, setAdminUpdatedProduct } =
+export const { setAdminCreatedProduct, setAdminUpdatedProduct } =
   productSlice.actions
 export default productSlice.reducer

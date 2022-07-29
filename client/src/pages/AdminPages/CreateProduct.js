@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { adminCreateProduct } from '../../redux/product/productsSlice'
 
 const CreateProduct = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { adminCreatedProduct } = useSelector((state) => state.products)
   const [productData, setProductData] = useState({
     name: '',
     image: '',
@@ -27,6 +28,12 @@ const CreateProduct = () => {
     e.preventDefault()
     dispatch(adminCreateProduct({ productData }))
   }
+
+  useEffect(() => {
+    if (adminCreatedProduct.createdProduct) {
+      navigate('/admin/products')
+    }
+  }, [adminCreatedProduct])
 
   return (
     <div>

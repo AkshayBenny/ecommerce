@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   adminDeleteProductById,
-  adminUpdateProduct,
   getAllProductsAdmin,
+  setAdminCreatedProduct,
   setAdminUpdatedProduct,
 } from '../../redux/product/productsSlice'
 
@@ -17,10 +17,12 @@ const ProductListPage = () => {
     allProductsAdminIsLoading,
     adminDeleteProductByIdIsLoading,
   } = useSelector((state) => state.products)
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getAllProductsAdmin())
       dispatch(setAdminUpdatedProduct({}))
+      dispatch(setAdminCreatedProduct({}))
     } else {
       navigate('/login')
     }
