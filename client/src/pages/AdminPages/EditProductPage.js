@@ -9,9 +9,13 @@ import {
 const EditProductPage = () => {
   const { id } = useParams()
 
-  const { adminProductById, adminProductByIdIsLoading } = useSelector(
-    (state) => state.products
-  )
+  const {
+    adminProductById,
+    adminProductByIdIsLoading,
+    adminUpdateProductRedirect,
+    adminUpdateProductIsLoading,
+    adminUpdatedProduct,
+  } = useSelector((state) => state.products)
   const [productData, setProductData] = useState({
     name: '',
     image: '',
@@ -21,6 +25,7 @@ const EditProductPage = () => {
     price: 0,
     countInStock: 0,
   })
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -53,11 +58,19 @@ const EditProductPage = () => {
     }
   }, [adminProductByIdIsLoading])
 
-  const submitHandler = (e) => {
-    let payload = { id, productData }
+  const submitHandler = async (e) => {
     e.preventDefault()
+    let payload = { id, productData }
     dispatch(adminUpdateProduct(payload))
   }
+
+  console.log(adminUpdatedProduct)
+
+  useEffect(() => {
+    if (adminUpdatedProduct.updatedProduct) {
+      navigate('/admin/products')
+    }
+  }, [adminUpdatedProduct])
 
   if (adminProductByIdIsLoading) {
     return <div>Loading...</div>
@@ -157,7 +170,11 @@ const EditProductPage = () => {
             }
           />
         </div>
-        <button className='bg-black p-3 text-white'>Update product</button>
+        {adminUpdateProductIsLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <button className='bg-black p-3 text-white'>Update product</button>
+        )}
       </form>
     </div>
   )

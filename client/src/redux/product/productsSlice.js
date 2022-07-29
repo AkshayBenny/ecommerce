@@ -8,7 +8,9 @@ const initialState = {
   adminCreateProduct: {},
   adminCreateProductIsLoading: false,
   adminUpdateProduct: {},
+  adminUpdateProductRedirect: false,
   adminUpdateProductIsLoading: false,
+  adminUpdatedProduct: {},
   adminProductById: {},
   adminProductByIdIsLoading: false,
   allProductsAdminIsLoading: false,
@@ -96,11 +98,12 @@ export const adminUpdateProduct = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    await axios.put(
+    const { data } = await axios.put(
       `http://localhost:5000/api/admin/products/${id}`,
       { productData },
       config
     )
+    return data
   }
 )
 export const adminCreateProduct = createAsyncThunk(
@@ -126,6 +129,14 @@ export const adminCreateProduct = createAsyncThunk(
 export const productSlice = createSlice({
   name: 'products',
   initialState,
+  reducers: {
+    setAdminUpdateProductRedirect: (state, action) => {
+      state.adminUpdateProductRedirect = action.payload
+    },
+    setAdminUpdatedProduct: (state, action) => {
+      state.adminUpdatedProduct = action.payload
+    },
+  },
   extraReducers: {
     [getAllProducts.pending]: (state) => {
       state.isLoading = true
@@ -175,18 +186,17 @@ export const productSlice = createSlice({
     },
     [adminUpdateProduct.fulfilled]: (state, action) => {
       state.adminUpdateProductIsLoading = false
-      state.adminUpdateProduct = action.payload
+      state.adminUpdatedProduct = action.payload
     },
     [adminUpdateProduct.rejected]: (state, action) => {
       state.adminUpdateProductIsLoading = false
-      state.error = action.payload
     },
     [adminCreateProduct.pending]: (state) => {
       state.adminCreateProductIsLoading = true
     },
     [adminCreateProduct.fulfilled]: (state, action) => {
       state.adminCreateProductIsLoading = false
-      state.adminCreateProduct = action.payload
+      state.adminCreateProductRes = action.payload
     },
     [adminCreateProduct.rejected]: (state, action) => {
       state.adminCreateProductIsLoading = false
@@ -195,4 +205,6 @@ export const productSlice = createSlice({
   },
 })
 
+export const { setAdminUpdateProductRedirect, setAdminUpdatedProduct } =
+  productSlice.actions
 export default productSlice.reducer
