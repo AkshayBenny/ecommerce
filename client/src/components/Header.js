@@ -13,8 +13,7 @@ const Header = () => {
       </Link>
       <div className='flex items-center gap-12'>
         <div className='btn-hover flex justify-center items-center gap-2'>
-          <div>
-            
+          <div className='mr-6 italic text-gray-400'>
             {user.isAdmin && (
               <div className='flex items-center justify-center gap-3'>
                 <Link to='/admin/products'>Products</Link>

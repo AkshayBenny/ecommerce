@@ -63,8 +63,6 @@ const EditProductPage = () => {
     dispatch(adminUpdateProduct(payload))
   }
 
- 
-
   useEffect(() => {
     if (adminUpdatedProduct.updatedProduct) {
       navigate('/admin/products')
@@ -78,7 +76,12 @@ const EditProductPage = () => {
   return (
     <div>
       <h1 className='my-4 text-2xl text-bold'>Edit Product Page</h1>
-      <form onSubmit={submitHandler} className=' flex flex-col gap-5'>
+
+      <form
+        onSubmit={submitHandler}
+        encType='multipart/form-data'
+        className=' flex flex-col gap-5'
+      >
         <div>
           <label>Name</label>
           <input
