@@ -1,4 +1,5 @@
 import express from 'express'
+import path from 'path'
 import connectDB from './config/db.js'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -8,6 +9,7 @@ import userRoutes from './routes/userRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import uploadRoute from './routes/uploadRoute.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 const app = express()
@@ -25,10 +27,12 @@ app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/order', orderRoutes)
+app.use('/api/upload', uploadRoute)
 
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
+//__dirname is not available when ES modules are used so the below method is used to bypass this problem
 
 //error handling
 app.use(notFound)

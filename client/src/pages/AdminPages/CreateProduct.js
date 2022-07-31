@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +8,8 @@ const CreateProduct = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { adminCreatedProduct } = useSelector((state) => state.products)
+  const [uploading, setUploading] = useState(false)
+
   const [productData, setProductData] = useState({
     name: '',
     image: '',
@@ -27,6 +30,31 @@ const CreateProduct = () => {
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(adminCreateProduct({ productData }))
+  }
+
+  const uploadFileHandler = async (e) => {
+    e.preventDefault()
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      const { data } = await axios.post(
+        'http://localhost:5000/api/upload',
+        formData,
+        config
+      )
+      setProductData({ ...productData, image: data })
+      setUploading(false)
+    } catch (error) {
+      console.log(error)
+      setUploading(false)
+    }
   }
 
   useEffect(() => {
@@ -53,15 +81,24 @@ const CreateProduct = () => {
         </div>
         <div>
           <label>Image</label>
-          <input
-            type='text'
-            placeholder='Image'
-            value={productData.image}
-            className='p-4 w-full border-black rounded border-2'
-            onChange={(e) =>
-              setProductData((prev) => ({ ...prev, image: e.target.value }))
-            }
-          />
+          <div className='border-black rounded border-2'>
+            <input
+              type='text'
+              placeholder='Image'
+              value={productData.image}
+              className='p-4 w-full'
+              onChange={(e) =>
+                setProductData((prev) => ({ ...prev, image: e.target.value }))
+              }
+            />
+            <input
+              type='file'
+              placeholder='Image'
+              className='p-4 w-full'
+              onChange={uploadFileHandler}
+            />
+          </div>
+          {uploading && <p>Loading...</p>}
         </div>
         <div>
           <label>Brand</label>

@@ -50,6 +50,7 @@ const ProductListPage = () => {
       </Link>
       <div className='space-y-3'>
         {allProductsAdmin?.map((product, index) => {
+          console.log(product.image)
           return (
             <div key={index} className='border p-4 flex space-x-6 items-center'>
               <img

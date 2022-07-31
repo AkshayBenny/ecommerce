@@ -5,6 +5,7 @@ import {
   adminUpdateProduct,
   getProductByIdAdmin,
 } from '../../redux/product/productsSlice'
+import axios from 'axios'
 
 const EditProductPage = () => {
   const { id } = useParams()
@@ -15,6 +16,7 @@ const EditProductPage = () => {
     adminUpdateProductIsLoading,
     adminUpdatedProduct,
   } = useSelector((state) => state.products)
+  const [uploading, setUploading] = useState(false)
   const [productData, setProductData] = useState({
     name: '',
     image: '',
@@ -57,10 +59,35 @@ const EditProductPage = () => {
     }
   }, [adminProductByIdIsLoading])
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault()
     let payload = { id, productData }
     dispatch(adminUpdateProduct(payload))
+  }
+
+  const uploadFileHandler = async (e) => {
+    e.preventDefault()
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      const { data } = await axios.post(
+        'http://localhost:5000/api/upload',
+        formData,
+        config
+      )
+      setProductData({ ...productData, image: data })
+      setUploading(false)
+    } catch (error) {
+      console.log(error)
+      setUploading(false)
+    }
   }
 
   useEffect(() => {
@@ -77,11 +104,7 @@ const EditProductPage = () => {
     <div>
       <h1 className='my-4 text-2xl text-bold'>Edit Product Page</h1>
 
-      <form
-        onSubmit={submitHandler}
-        encType='multipart/form-data'
-        className=' flex flex-col gap-5'
-      >
+      <form onSubmit={submitHandler} className=' flex flex-col gap-5'>
         <div>
           <label>Name</label>
           <input
@@ -96,15 +119,25 @@ const EditProductPage = () => {
         </div>
         <div>
           <label>Image</label>
-          <input
-            type='text'
-            placeholder='Image'
-            value={productData?.image}
-            className='p-4 w-full border-black rounded border-2'
-            onChange={(e) =>
-              setProductData((prev) => ({ ...prev, image: e.target.value }))
-            }
-          />
+          <div className='border-black rounded border-2'>
+            <input
+              type='text'
+              placeholder='Image'
+              value={productData?.image}
+              className='p-2 w-full bg-slate-300'
+              onChange={(e) =>
+                setProductData((prev) => ({ ...prev, image: e.target.value }))
+              }
+            />
+            <input
+              type='file'
+              placeholder='Image'
+             
+              className='p-4 w-full'
+              onChange={uploadFileHandler}
+            />
+          </div>
+          {uploading && <p>Loading...</p>}
         </div>
         <div>
           <label>Brand</label>
