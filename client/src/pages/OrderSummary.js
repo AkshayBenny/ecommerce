@@ -47,6 +47,8 @@ const OrderSummary = () => {
     dispatch(createOrder({ orderItems, shippingAddress, paymentMethod }))
   }
 
+  console.log(shippingDetails, paymentMethod, orderItems)
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -58,10 +60,10 @@ const OrderSummary = () => {
   return (
     <div>
       <h1>Order Summary</h1>
-      <p>Shipping Address: {shippingDetails.address}</p>
-      <p>City: {shippingDetails.city}</p>
-      <p>Postal Code: {shippingDetails.postalCode}</p>
-      <p>Country: {shippingDetails.country}</p>
+      <p>Shipping Address: {shippingDetails?.address}</p>
+      <p>City: {shippingDetails?.city}</p>
+      <p>Postal Code: {shippingDetails?.postalCode}</p>
+      <p>Country: {shippingDetails?.country}</p>
       <p>Total Price:{total}</p>
       <p>Payment Mode: {paymentMode}</p>
 

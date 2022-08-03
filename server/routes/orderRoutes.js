@@ -29,4 +29,11 @@ router.route('/:id/pay').put(protect, updateOrderToPaid)
 // @access Private
 router.route('/').get(protect, getAllOrders)
 
+// @desc GET razorpay key id
+// @route GET /api/order/get-razorpay-key
+// @access Private
+router.route('/get-razorpay-key').get(protect, (req, res) => {
+  res.send({ key: process.env.RAZORPAY.KEY.ID })
+})
+
 export default router

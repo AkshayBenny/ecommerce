@@ -19,7 +19,6 @@ export const createOrder = asyncHandler(async (req, res) => {
   if (orderItems && orderItems.length === 0) {
     res.status(400)
     throw new Error('No items in order')
-    return
   } else {
     const order = new Order({
       user: req.user._id,
@@ -64,6 +63,7 @@ export const getAllOrders = asyncHandler(async (req, res) => {
   }
 })
 
+//not reqiured
 // @desc Update Order to paid
 // @route GET /api/order/:id/pay
 // @access Private

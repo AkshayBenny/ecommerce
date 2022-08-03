@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CheckoutSteps from '../components/CheckoutSteps'
 import {
   setPaymentMode,
@@ -15,10 +15,10 @@ const ShippingPage = () => {
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [country, setCountry] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('PayPal')
+  const [paymentMethod, setPaymentMethod] = useState('RazorPay')
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const submitHandler = (e) => {
     e.preventDefault()
 
@@ -27,11 +27,17 @@ const ShippingPage = () => {
     dispatch(setUserCity(city))
     dispatch(setUserPostalCode(postalCode))
     dispatch(setUserCountry(country))
-    localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod))
+
     localStorage.setItem(
       'shippingDetails',
-      JSON.stringify({ address, city, postalCode, country })
+      JSON.stringify({
+        address: address,
+        city: city,
+        postalCode: postalCode,
+        country: country,
+      })
     )
+    navigate('/ordersummary')
   }
 
   return (
@@ -61,19 +67,18 @@ const ShippingPage = () => {
         {/* payment methods */}
         <input
           type='radio'
-          label='PayPal'
-          id='PayPal'
+          label='Razorpay'
+          id='Razorpay'
           name='paymentMethod'
-          value='PayPal'
-          checked={paymentMethod === 'PayPal'}
+          value='Razorpay'
+          checked={paymentMethod === 'Razorpay'}
           onChange={(e) => setPaymentMethod(e.target.value)}
         />
-        PayPal
+        Razorpay
       </div>
 
-      <Link to='/ordersummary'>
-        <button>Submit</button>
-      </Link>
+      <button>Submit</button>
+     
     </form>
   )
 }

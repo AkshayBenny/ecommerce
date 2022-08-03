@@ -46,6 +46,7 @@ export const createOrder = createAsyncThunk(
       },
       config
     )
+    // localStorage.setItem('shippingDetails', JSON.stringify(data))
 
     return data
   }
@@ -93,6 +94,7 @@ export const updateOrderPaymentStatus = createAsyncThunk(
     return data
   }
 )
+
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
