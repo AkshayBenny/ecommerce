@@ -9,6 +9,13 @@ import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
+// @desc GET razorpay key id
+// @route GET /api/order/get-razorpay-key
+// @access Private
+router.get('/get-razorpay-key', protect, (req, res) => {
+  res.send({ key: process.env.RAZORPAY_KEY_ID })
+})
+
 // @desc Create new order
 // @route POST /api/order
 // @access Private
@@ -28,12 +35,5 @@ router.route('/:id/pay').post(protect, updateOrderToPaid)
 // @route GET /api/order/
 // @access Private
 router.route('/').get(protect, getAllOrders)
-
-// @desc GET razorpay key id
-// @route GET /api/order/get-razorpay-key
-// @access Private
-router.route('/get-razorpay-key').get(protect, (req, res) => {
-  res.send({ key: process.env.RAZORPAY.KEY.ID })
-})
 
 export default router

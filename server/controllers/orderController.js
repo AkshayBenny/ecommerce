@@ -93,6 +93,13 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (userOrder) {
     try {
       const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body
+      console.log(
+        orderId,
+        razorpayPaymentId,
+        razorpayOrderId,
+        razorpaySignature
+      )
+      
       userOrder.isPaid = true
       userOrder.paidAt = Date.now()
       userOrder.razorpay = {

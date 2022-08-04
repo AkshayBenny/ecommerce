@@ -20,6 +20,7 @@ import ProductListPage from './pages/AdminPages/ProductListPage'
 import AddProductPage from './pages/AdminPages/AddProductPage'
 import CreateProduct from './pages/AdminPages/CreateProduct'
 import EditProductPage from './pages/AdminPages/EditProductPage'
+import PaymentPage from './pages/PaymentPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -51,6 +52,7 @@ function App() {
           <Route path='/profile/update' element={<UpdateProfilePage />} />
           <Route path='/shipping' element={<ShippingPage />} exact />
           <Route path='/ordersummary' element={<OrderSummary />} exact />
+          <Route path='/payment/:id' element={<PaymentPage />} exact />
           <Route path='/placeorder' element={<PlaceOrder />} exact />
           <Route path='/cart' element={<CartPage />} exact />
           <Route path='/order/:id' element={<OrderPage />} exact />

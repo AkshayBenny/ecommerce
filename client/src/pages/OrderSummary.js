@@ -6,20 +6,14 @@ import { useNavigate } from 'react-router-dom'
 
 const OrderSummary = () => {
   const dispatch = useDispatch()
-  const { paymentMode, error, isLoading } = useSelector((state) => state.order)
+  const { paymentMode, error, isLoading, createOrderIsLoading, order } =
+    useSelector((state) => state.order)
   const { cartItems, total } = useSelector((state) => state.cart)
-  const { order } = useSelector((state) => state.order)
   const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'))
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getCart())
   }, [dispatch])
-
-  useEffect(() => {
-    if (order.order) {
-      navigate(`/order/${order.order.createdOrder._id}`)
-    }
-  }, [order, navigate])
 
   //orderItems
   const orderItems = []
@@ -44,10 +38,19 @@ const OrderSummary = () => {
   const paymentMethod = paymentMode
 
   const clickHandler = () => {
-    dispatch(createOrder({ orderItems, shippingAddress, paymentMethod }))
-  }
+    let totalPrice = 0
+    orderItems.map((product) => {
+      return (totalPrice += product.price)
+    })
 
-  console.log(shippingDetails, paymentMethod, orderItems)
+    dispatch(
+      createOrder({ orderItems, shippingAddress, paymentMethod, totalPrice })
+    )
+    const orderResult = JSON.parse(localStorage.getItem('orderResult'))
+    if (!createOrderIsLoading && orderResult) {
+      navigate(`/payment/${orderResult.createdOrder._id}`)
+    }
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -73,6 +76,7 @@ const OrderSummary = () => {
       >
         Place order
       </button>
+      {createOrderIsLoading && <p>Loading...</p>}
     </div>
   )
 }
