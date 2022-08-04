@@ -7,7 +7,6 @@ import dotenv from 'dotenv'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
-import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import uploadRoute from './routes/uploadRoute.js'
@@ -29,7 +28,6 @@ app.use('/api/users', userRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/order', orderRoutes)
 app.use('/api/upload', uploadRoute)
-app.use('/api/pay', paymentRoutes)
 
 //__dirname is not available when ES modules are used so the below method is used to bypass this problem
 

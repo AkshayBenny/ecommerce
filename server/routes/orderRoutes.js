@@ -22,7 +22,7 @@ router.route('/:id').get(protect, getOrderById)
 // @desc Get order by id and update the payment status
 // @route GET /api/order/:id/pay
 // @access Private
-router.route('/:id/pay').put(protect, updateOrderToPaid)
+router.route('/:id/pay').post(protect, updateOrderToPaid)
 
 // @desc Get all order
 // @route GET /api/order/
