@@ -1,8 +1,8 @@
 import express from 'express'
 import {
   createOrder,
-  getAllOrders,
   getOrderById,
+  getOrderByUserId,
   updateOrderToPaid,
 } from '../controllers/orderController.js'
 import { protect } from '../middleware/authMiddleware.js'
@@ -26,14 +26,14 @@ router.route('/').post(protect, createOrder)
 // @access Private
 router.route('/:id').get(protect, getOrderById)
 
+// @desc Get orders for a user
+// @route GET /api/order/:id
+// @access Private
+router.route('/user/:id').get(protect, getOrderByUserId)
+
 // @desc Get order by id and update the payment status
 // @route GET /api/order/:id/pay
 // @access Private
 router.route('/:id/pay').post(protect, updateOrderToPaid)
-
-// @desc Get all order
-// @route GET /api/order/
-// @access Private
-router.route('/').get(protect, getAllOrders)
 
 export default router

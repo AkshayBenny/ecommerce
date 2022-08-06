@@ -4,6 +4,7 @@ import axios from 'axios'
 const initialState = {
   getUserById: {},
   getUserByIdIsLoading: false,
+  
   editUser: {},
   editUserIsLoading: false,
   userList: [],

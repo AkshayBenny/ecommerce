@@ -60,7 +60,6 @@ export const createOrder = asyncHandler(async (req, res) => {
 // @access Private
 export const getOrderById = asyncHandler(async (req, res) => {
   const orderId = req.params.id
-  const uid = req.user.id
 
   const userOrder = await Order.findById(orderId).populate('user', 'name email')
 
@@ -74,16 +73,30 @@ export const getOrderById = asyncHandler(async (req, res) => {
 // @desc Get order by id
 // @route GET /api/order/:id
 // @access Private
-export const getAllOrders = asyncHandler(async (req, res) => {
-  try {
-    const allOrders = await Order.find({})
-    res.json({ allOrders })
-  } catch (error) {
-    res.status(404).json({ message: error.message, error })
+export const getOrderByUserId = asyncHandler(async (req, res) => {
+  const uid = req.params.id
+
+  const userOrders = await Order.find({ user: uid })
+
+  if (userOrders) {
+    res.json({ userOrders })
+  } else {
+    res.status(404).json({ message: 'User does not have any orders' })
   }
 })
 
-//not reqiured
+// @desc Get order by id
+// @route GET /api/order/:id
+// @access Private
+export const getAllOrders = asyncHandler(async (req, res) => {
+  try {
+    const allOrders = await Order.find({}).populate('user', 'name id')
+    res.json({ allOrders })
+  } catch (error) {
+    res.status(404).json({ message: 'Error getting all orders', error })
+  }
+})
+
 // @desc Update Order to paid
 // @route GET /api/order/:id/pay
 // @access Private
@@ -99,7 +112,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
         razorpayOrderId,
         razorpaySignature
       )
-      
+
       userOrder.isPaid = true
       userOrder.paidAt = Date.now()
       userOrder.razorpay = {
@@ -118,6 +131,26 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     } catch (error) {
       console.log(error)
       res.status(500).json({ message: 'Payment failed' })
+    }
+  } else {
+    res.json({ message: 'Order not found' })
+  }
+})
+
+// @desc Update Order to delivered
+// @route GET /api/orders/delivered/:id
+// @access Private
+export const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const orderId = req.params.id
+  const userOrder = await Order.findById(orderId)
+  if (userOrder) {
+    try {
+      userOrder.isDelivered = true
+      const updatedOrder = await userOrder.save()
+      res.json({ message: 'Delivery was successful', updatedOrder })
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Delivery  failed' })
     }
   } else {
     res.json({ message: 'Order not found' })

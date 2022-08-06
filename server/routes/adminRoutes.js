@@ -1,5 +1,10 @@
 import express from 'express'
 import {
+  getAllOrders,
+  getOrderById,
+  updateOrderToDelivered,
+} from '../controllers/orderController.js'
+import {
   createProduct,
   deleteProduct,
   getAllProductsAdmin,
@@ -51,5 +56,18 @@ router
   .delete(protect, isAdmin, deleteProduct)
   .get(protect, isAdmin, getProductByIdAdmin)
   .put(protect, isAdmin, updateProductByAdmin)
+
+//------------ORDER ROUTES------------------
+// @desc Get all order
+// @route GET /api/order/
+// @access Private/Admin
+router.route('/orders').get(protect, isAdmin, getAllOrders)
+
+// @desc Mark order as delivered
+// @route GET /api/order/delivered/:id
+// @access Private/Admin
+router
+  .route('/orders/delivered/:id')
+  .get(protect, isAdmin, updateOrderToDelivered)
 
 export default router

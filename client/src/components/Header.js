@@ -18,6 +18,7 @@ const Header = () => {
               <div className='flex items-center justify-center gap-3'>
                 <Link to='/admin/products'>Products</Link>
                 <Link to='/admin/users'>Users</Link>
+                <Link to='/admin/orders'>Orders</Link>
               </div>
             )}
           </div>
@@ -25,6 +26,12 @@ const Header = () => {
             <div className='btn-hover flex justify-center items-center gap-2'>
               <ShoppingCartIcon className='h-5' />
               <p>Cart</p>
+            </div>
+          </Link>
+
+          <Link to='/profile'>
+            <div className='btn-hover flex justify-center items-center gap-2'>
+              <p>Profile</p>
             </div>
           </Link>
 

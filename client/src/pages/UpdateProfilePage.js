@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../redux/user/userSlice'
 
 const UpdateProfilePage = () => {
   const dispatch = useDispatch()
-  const { isLoading, error } = useSelector((state) => state.user)
+  const { isLoading, error, user } = useSelector((state) => state.user)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -27,13 +28,13 @@ const UpdateProfilePage = () => {
         type='text'
         placeholder='Enter new name'
         onChange={(e) => setName(e.target.value)}
-        value={name}
+        value={user.name ? user.name : name}
       />
       <input
         type='email'
         placeholder='Enter new email'
         onChange={(e) => setEmail(e.target.value)}
-        value={email}
+        value={user.email ? user.email : email}
       />
       <input
         type='password'

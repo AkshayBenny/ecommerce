@@ -21,6 +21,10 @@ import AddProductPage from './pages/AdminPages/AddProductPage'
 import CreateProduct from './pages/AdminPages/CreateProduct'
 import EditProductPage from './pages/AdminPages/EditProductPage'
 import PaymentPage from './pages/PaymentPage'
+import ProfilePage from './pages/ProfilePage'
+import UserOrders from './pages/UserOrders'
+import OrderListPage from './pages/AdminPages/OrderListPage'
+import OrderDetailsPage from './pages/AdminPages/OrderDetailsPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -50,6 +54,10 @@ function App() {
           <Route path='/login' element={<SignInPage />} exact />
           <Route path='/register' element={<RegisterPage />} exact />
           <Route path='/profile/update' element={<UpdateProfilePage />} />
+
+          <Route path='/profile/orders' element={<UserOrders />} />
+          <Route path='/profile' element={<ProfilePage />} exact />
+          <Route path='/profile/update' element={<UpdateProfilePage />} />
           <Route path='/shipping' element={<ShippingPage />} exact />
           <Route path='/ordersummary' element={<OrderSummary />} exact />
           <Route path='/payment/:id' element={<PaymentPage />} exact />
@@ -59,6 +67,12 @@ function App() {
           <Route path='/admin/users' element={<UserListPage />} exact />
           <Route path='/admin/users/:id' element={<UserPage />} exact />
           <Route path='/admin/products' element={<ProductListPage />} exact />
+          <Route path='/admin/orders' element={<OrderListPage />} exact />
+          <Route
+            path='/admin/orders/:id'
+            element={<OrderDetailsPage />}
+            exact
+          />
           <Route
             path='/admin/products/:id'
             element={<AddProductPage />}

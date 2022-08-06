@@ -4,6 +4,12 @@ import axios from 'axios'
 const initialState = {
   order: {},
   createOrderIsLoading: false,
+  getOrderByUserIdRes: [],
+  getOrderByUserIdResIsLoading: false,
+  adminGetAllOrdersRes: [],
+  adminGetAllOrdersResIsLoading: false,
+  adminUpdateOrderToDeliveredRes: {},
+  adminUpdateOrderToDeliveredResIsLoading: false,
   orderById: {},
   updateOrderPaymentStatus: {},
   upsLoading: false,
@@ -81,6 +87,26 @@ export const getOrderById = createAsyncThunk(
   }
 )
 
+export const getOrderByUserId = createAsyncThunk(
+  'order/getOrderByUserId',
+  async ({ id }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/order/user/${id}`,
+      config
+    )
+
+    return data
+  }
+)
 export const updateOrderPaymentStatus = createAsyncThunk(
   'order/updateOrderPaymentStatus',
   async ({
@@ -101,6 +127,49 @@ export const updateOrderPaymentStatus = createAsyncThunk(
     const { data } = await axios.put(
       `http://localhost:5000/api/order/${orderId}/pay`,
       { razorpayPaymentId, razorpayOrderId, razorpaySignature },
+      config
+    )
+
+    return data
+  }
+)
+
+export const adminGetAllOrders = createAsyncThunk(
+  'order/adminGetAllOrders',
+  async () => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/admin/orders`,
+
+      config
+    )
+
+    return data
+  }
+)
+
+export const adminUpdateOrderToDelivered = createAsyncThunk(
+  'order/adminUpdateOrderToDelivered',
+  async ({ id }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/admin/orders/delivered/${id}`,
       config
     )
 
@@ -158,6 +227,37 @@ export const orderSlice = createSlice({
     },
     [updateOrderPaymentStatus.rejected]: (state) => {
       state.upsLoading = true
+    },
+    [getOrderByUserId.pending]: (state) => {
+      state.getOrderByUserIdResIsLoading = true
+    },
+    [getOrderByUserId.fulfilled]: (state, action) => {
+      state.getOrderByUserIdResIsLoading = false
+      state.getOrderByUserIdRes = action.payload
+    },
+    [getOrderByUserId.rejected]: (state) => {
+      state.getOrderByUserIdResIsLoading = true
+    },
+    [adminGetAllOrders.pending]: (state) => {
+      state.adminGetAllOrdersResIsLoading = true
+    },
+    [adminGetAllOrders.fulfilled]: (state, action) => {
+      state.adminGetAllOrdersResIsLoading = false
+      state.adminGetAllOrdersRes = action.payload
+    },
+    [adminGetAllOrders.rejected]: (state) => {
+      state.adminGetAllOrdersResIsLoading = true
+    },
+
+    [adminUpdateOrderToDelivered.pending]: (state) => {
+      state.adminUpdateOrderToDeliveredResIsLoading = true
+    },
+    [adminUpdateOrderToDelivered.fulfilled]: (state, action) => {
+      state.adminUpdateOrderToDeliveredResIsLoading = false
+      state.adminUpdateOrderToDeliveredRes = action.payload
+    },
+    [adminUpdateOrderToDelivered.rejected]: (state) => {
+      state.adminUpdateOrderToDeliveredResIsLoading = true
     },
   },
 })
