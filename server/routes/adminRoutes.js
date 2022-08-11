@@ -58,16 +58,16 @@ router
   .put(protect, isAdmin, updateProductByAdmin)
 
 //------------ORDER ROUTES------------------
-// @desc Get all order
-// @route GET /api/order/
-// @access Private/Admin
-router.route('/orders').get(protect, isAdmin, getAllOrders)
-
 // @desc Mark order as delivered
 // @route GET /api/order/delivered/:id
 // @access Private/Admin
 router
   .route('/orders/delivered/:id')
-  .get(protect, isAdmin, updateOrderToDelivered)
+  .put(protect, isAdmin, updateOrderToDelivered)
+
+// @desc Get all order
+// @route GET /api/order/
+// @access Private/Admin
+router.route('/orders').get(protect, isAdmin, getAllOrders)
 
 export default router

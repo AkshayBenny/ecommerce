@@ -8,12 +8,8 @@ import {
 
 const OrderDetailsPage = () => {
   const { id } = useParams()
-  const {
-    oidLoading,
-    orderById,
-    adminUpdateOrderToDeliveredResIsLoading,
-    adminUpdateOrderToDeliveredRes,
-  } = useSelector((state) => state.order)
+  const { oidLoading, orderById, adminUpdateOrderToDeliveredResIsLoading } =
+    useSelector((state) => state.order)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -32,7 +28,7 @@ const OrderDetailsPage = () => {
     <div>
       <h1 className='text-3xl'>Order Details Page</h1>
       <div className='space-y-6'>
-        <p className='text-xl'>
+        <p className='text-xl'>j
           Order ID:
           <span className='font-bold'>{orderById?.userOrder?._id}</span>
         </p>
@@ -51,7 +47,7 @@ const OrderDetailsPage = () => {
                   ? orderById.userOrder.paidAt.substring(0, 10)
                   : 'false'}
               </span>
-              \
+              
             </p>
           </div>
           <div>

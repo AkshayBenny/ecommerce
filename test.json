@@ -1,0 +1,40 @@
+{
+  "message": "Order created successfully",
+  "createdOrder": {
+    "user": "62de26b5cbf6a40ef28df707",
+    "orderItems": [
+      {
+        "name": "iPhone 12",
+        "qty": 1,
+        "image": "/images/phone.jpg",
+        "price": 599.99,
+        "product": "62b0843f88e11a98cffba8e0",
+        "_id": "62f491b7b49088b3f63dcf13"
+      },
+      {
+        "name": "Airpods Wireless Bluetooth Headphone",
+        "qty": 1,
+        "image": "/images/airpods.jpg",
+        "price": 89.99,
+        "product": "62b0843f88e11a98cffba8df",
+        "_id": "62f491b7b49088b3f63dcf14"
+      }
+    ],
+    "shippingAddress": {
+      "address": "Aerathukunnel house, Pettah",
+      "city": "Ernakulam",
+      "postalCode": "682038",
+      "country": "India"
+    },
+    "paymentMethod": "Razorpay",
+    "taxPrice": 0,
+    "shippingPrice": 0,
+    "totalPrice": 689.98,
+    "isPaid": false,
+    "isDelivered": false,
+    "_id": "62f491b7b49088b3f63dcf12",
+    "createdAt": "2022-08-11T05:20:55.392Z",
+    "updatedAt": "2022-08-11T05:20:55.392Z",
+    "__v": 0
+  }
+}

@@ -3,11 +3,17 @@ import axios from 'axios'
 
 const initialState = {
   products: [],
+  topProductsRes: [],
+  topProductsResIsLoading: false,
   allProductsAdmin: [],
   adminDeleteProductByIdIsLoading: false,
   adminCreateProduct: {},
   adminCreatedProduct: {},
+  page: 1,
+  pages: 1,
   adminCreateProductIsLoading: false,
+  addReviewResIsLoading: false,
+  addReviewRes: {},
   adminUpdateProduct: {},
   adminUpdateProductRedirect: false,
   adminUpdateProductIsLoading: false,
@@ -21,8 +27,20 @@ const initialState = {
 
 export const getAllProducts = createAsyncThunk(
   'products/getAllProducts',
+  async ({ keyword, page }) => {
+    const pageNum = page || ''
+    const userKeyword = keyword || ''
+    const { data } = await axios.get(
+      `http://localhost:5000/api/products?keyword=${userKeyword}&page=${pageNum}`
+    )
+    return data
+  }
+)
+
+export const getTopProducts = createAsyncThunk(
+  'products/getTopProducts',
   async () => {
-    const { data } = await axios.get('http://localhost:5000/api/products')
+    const { data } = await axios.get('http://localhost:5000/api/products/top')
     return data
   }
 )
@@ -128,6 +146,25 @@ export const adminCreateProduct = createAsyncThunk(
   }
 )
 
+export const addReview = createAsyncThunk(
+  'user/addReview',
+  async ({ id, comment, rating }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    await axios.post(
+      `http://localhost:5000/api/products/${id}/review`,
+      { comment, rating },
+      config
+    )
+  }
+)
+
 export const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -145,10 +182,23 @@ export const productSlice = createSlice({
     },
     [getAllProducts.fulfilled]: (state, action) => {
       state.isLoading = false
-      state.products = action.payload
+      state.products = action.payload.products
+      state.page = action.payload.page
+      state.pages = action.payload.pages
     },
     [getAllProducts.rejected]: (state, action) => {
       state.isLoading = false
+      state.error = action.payload
+    },
+    [getTopProducts.pending]: (state) => {
+      state.topProductsResIsLoading = true
+    },
+    [getTopProducts.fulfilled]: (state, action) => {
+      state.topProductsResIsLoading = false
+      state.topProductsRes = action.payload
+    },
+    [getTopProducts.rejected]: (state, action) => {
+      state.topProductsResIsLoading = false
       state.error = action.payload
     },
     [getAllProductsAdmin.pending]: (state) => {
@@ -202,6 +252,17 @@ export const productSlice = createSlice({
     },
     [adminCreateProduct.rejected]: (state, action) => {
       state.adminCreateProductIsLoading = false
+      state.error = action.payload
+    },
+    [addReview.pending]: (state) => {
+      state.addReviewResIsLoading = true
+    },
+    [addReview.fulfilled]: (state, action) => {
+      state.addReviewResIsLoading = false
+      state.addReviewRes = action.payload
+    },
+    [addReview.rejected]: (state, action) => {
+      state.addReviewResIsLoading = false
       state.error = action.payload
     },
   },

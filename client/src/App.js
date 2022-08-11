@@ -49,12 +49,12 @@ function App() {
       <Header />
       <main className='py-8 md:px-24 p-4'>
         <Routes>
+          <Route path='/search/:id' element={<HomePage />} exact />
           <Route path='/' element={<HomePage />} exact />
           <Route path='/product/:pid' element={<ProductPage exact />} />
           <Route path='/login' element={<SignInPage />} exact />
           <Route path='/register' element={<RegisterPage />} exact />
           <Route path='/profile/update' element={<UpdateProfilePage />} />
-
           <Route path='/profile/orders' element={<UserOrders />} />
           <Route path='/profile' element={<ProfilePage />} exact />
           <Route path='/profile/update' element={<UpdateProfilePage />} />

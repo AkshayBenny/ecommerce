@@ -21,6 +21,11 @@ router.get('/get-razorpay-key', protect, (req, res) => {
 // @access Private
 router.route('/').post(protect, createOrder)
 
+// @desc Get order by id and update the payment status
+// @route GET /api/order/:id/pay
+// @access Private
+router.route('/:id/pay').post(protect, updateOrderToPaid)
+
 // @desc Get order by id
 // @route GET /api/order/:id
 // @access Private
@@ -30,10 +35,5 @@ router.route('/:id').get(protect, getOrderById)
 // @route GET /api/order/:id
 // @access Private
 router.route('/user/:id').get(protect, getOrderByUserId)
-
-// @desc Get order by id and update the payment status
-// @route GET /api/order/:id/pay
-// @access Private
-router.route('/:id/pay').post(protect, updateOrderToPaid)
 
 export default router

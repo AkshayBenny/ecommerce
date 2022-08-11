@@ -2,6 +2,7 @@ import { ShoppingCartIcon, LoginIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logOut } from '../redux/user/userSlice'
+import SearchBox from './SearchBox'
 const Header = () => {
   const { user } = useSelector((state) => state.user)
   const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const Header = () => {
       <Link to='/'>
         <div className='text-3xl hover:cursor-pointer'>A-Shop</div>
       </Link>
+      <SearchBox />
       <div className='flex items-center gap-12'>
         <div className='btn-hover flex justify-center items-center gap-2'>
           <div className='mr-6 italic text-gray-400'>

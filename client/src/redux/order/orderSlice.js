@@ -8,7 +8,7 @@ const initialState = {
   getOrderByUserIdResIsLoading: false,
   adminGetAllOrdersRes: [],
   adminGetAllOrdersResIsLoading: false,
-  adminUpdateOrderToDeliveredRes: {},
+
   adminUpdateOrderToDeliveredResIsLoading: false,
   orderById: {},
   updateOrderPaymentStatus: {},
@@ -25,14 +25,7 @@ const initialState = {
 
 export const createOrder = createAsyncThunk(
   'order/createOrder',
-  async ({
-    orderItems,
-    shippingAddress,
-    paymentMethod,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  }) => {
+  async ({ orderItems, shippingAddress, paymentMethod, totalPrice }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
     const config = {
@@ -47,8 +40,6 @@ export const createOrder = createAsyncThunk(
         orderItems,
         shippingAddress,
         paymentMethod,
-        taxPrice,
-        shippingPrice,
         totalPrice,
       },
       config
@@ -61,6 +52,7 @@ export const createOrder = createAsyncThunk(
     )
 
     localStorage.setItem('razorpayKey', razorpayKey)
+
     localStorage.setItem('orderResult', JSON.stringify(data))
     return data
   }
@@ -124,7 +116,7 @@ export const updateOrderPaymentStatus = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.put(
+    const { data } = await axios.post(
       `http://localhost:5000/api/order/${orderId}/pay`,
       { razorpayPaymentId, razorpayOrderId, razorpaySignature },
       config
@@ -161,19 +153,17 @@ export const adminUpdateOrderToDelivered = createAsyncThunk(
   async ({ id }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
-
+    console.log(token)
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.get(
+    await axios.put(
       `http://localhost:5000/api/admin/orders/delivered/${id}`,
       config
     )
-
-    return data
   }
 )
 
@@ -248,13 +238,11 @@ export const orderSlice = createSlice({
     [adminGetAllOrders.rejected]: (state) => {
       state.adminGetAllOrdersResIsLoading = true
     },
-
     [adminUpdateOrderToDelivered.pending]: (state) => {
       state.adminUpdateOrderToDeliveredResIsLoading = true
     },
-    [adminUpdateOrderToDelivered.fulfilled]: (state, action) => {
+    [adminUpdateOrderToDelivered.fulfilled]: (state) => {
       state.adminUpdateOrderToDeliveredResIsLoading = false
-      state.adminUpdateOrderToDeliveredRes = action.payload
     },
     [adminUpdateOrderToDelivered.rejected]: (state) => {
       state.adminUpdateOrderToDeliveredResIsLoading = true

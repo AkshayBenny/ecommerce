@@ -46,11 +46,13 @@ const OrderSummary = () => {
     dispatch(
       createOrder({ orderItems, shippingAddress, paymentMethod, totalPrice })
     )
-    const orderResult = JSON.parse(localStorage.getItem('orderResult'))
-    if (!createOrderIsLoading && orderResult) {
-      navigate(`/payment/${orderResult.createdOrder._id}`)
-    }
   }
+
+  useEffect(() => {
+    if (!createOrderIsLoading && order.createdOrder) {
+      navigate(`/payment/${order.createdOrder._id}`)
+    }
+  }, [order])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -71,6 +73,7 @@ const OrderSummary = () => {
       <p>Payment Mode: {paymentMode}</p>
 
       <button
+        disabled={createOrderIsLoading}
         className='bg-black text-white px-4 py-2 cursor-pointer'
         onClick={clickHandler}
       >

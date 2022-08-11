@@ -5,10 +5,35 @@ import Product from '../models/productModel.js'
 // @route GET /api/products
 // @access Public
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({})
+  //current page
+  const page = Number(req.query.page) || 1
+  //size of each page
+  const pageSize = 6
+
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {}
+  const count = await Product.countDocuments({ ...keyword })
+
+  const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    .skip((page - 1) * pageSize)
   // res.status(401)
   // throw new Error('Product not found')
-  res.json(products)
+  res.json({ products, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @desc GET top products
+// @route GET /api/products/top
+// @access Public
+export const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+  res.json({ products })
 })
 
 // @desc Fetch a product
@@ -106,6 +131,42 @@ export const updateProductByAdmin = asyncHandler(async (req, res) => {
 
     const updatedProduct = await product.save()
     res.json({ message: 'Product updated successfully', updatedProduct })
+  } else {
+    res.status(404).json({ message: 'Product not found' })
+  }
+})
+
+// @desc Add a review to a product
+// @route POST /api/products/:id/review
+// @access Private
+export const addReview = asyncHandler(async (req, res) => {
+  const productId = req.params.id
+  const userId = req.user._id
+  const { rating, comment } = req.body
+  const product = await Product.findById(productId)
+  if (product) {
+    // check if user review on this product already exists
+    if (product.reviews.length >= 1) {
+      const userReview = product.reviews.filter(
+        (review) => review.user === userId
+      )
+      if (userReview)
+        return res.status(400).json({ message: 'Review already exists' })
+    }
+    product.numReviews = product.reviews.length
+    product.reviews.push({
+      name: req.user.name,
+      rating: Number(rating),
+      user: userId,
+      comment: comment,
+    })
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length
+    const updatedProduct = await product.save()
+    res
+      .status(201)
+      .json({ message: 'Review added successfully', updatedProduct })
   } else {
     res.status(404).json({ message: 'Product not found' })
   }

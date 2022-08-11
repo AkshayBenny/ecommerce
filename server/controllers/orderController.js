@@ -106,25 +106,28 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (userOrder) {
     try {
       const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body
-      console.log(
-        orderId,
-        razorpayPaymentId,
-        razorpayOrderId,
-        razorpaySignature
-      )
 
       userOrder.isPaid = true
       userOrder.paidAt = Date.now()
-      userOrder.razorpay = {
-        orderOd: razorpayOrderId,
-        paymentId: razorpayPaymentId,
-        signature: razorpaySignature,
+      try {
+        userOrder.razorpay = {
+          orderId: razorpayOrderId,
+          paymentId: razorpayPaymentId,
+          signature: razorpaySignature,
+        }
+      } catch (error) {
+        console.log('Error at setting razorpay stuff', error)
       }
-      userOrder.paymentResult = {
-        id: req.body.id,
-        status: req.body.status,
-        update_time: req.body.update_time,
-        email_address: req.body.payer.email_address,
+
+      try {
+        userOrder.paymentResult = {
+          id: req.body.id,
+          status: req.body.status,
+          update_time: req.body.update_time,
+          email_address: req.body.payer.email_address,
+        }
+      } catch (error) {
+        console.log('Error at setting paymentResult', error)
       }
       const updatedOrder = await userOrder.save()
       res.json({ message: 'Payment was successful', updatedOrder })
@@ -141,8 +144,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @route GET /api/orders/delivered/:id
 // @access Private
 export const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const orderId = req.params.id
-  const userOrder = await Order.findById(orderId)
+  const userOrder = await Order.findById(req.params.id)
   if (userOrder) {
     try {
       userOrder.isDelivered = true

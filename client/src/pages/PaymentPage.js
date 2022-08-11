@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { updateOrderPaymentStatus } from '../redux/order/orderSlice'
 
 const PaymentPage = () => {
@@ -9,6 +9,7 @@ const PaymentPage = () => {
   const { upsLoading, updateOrderPaymentStatus: upsResult } = useSelector(
     (state) => state.order
   )
+  const navigate = useNavigate()
   const { id: orderId } = useParams()
   const dispatch = useDispatch()
   const orderResult = JSON.parse(localStorage.getItem('orderResult'))
@@ -37,12 +38,16 @@ const PaymentPage = () => {
               razorpayOrderId: response.razorpay_order_id,
               razorpaySignature: response.razorpay_signature,
             }
+
             dispatch(updateOrderPaymentStatus(payload))
+            // if (!upsLoading) {
+            //   navigate('/')
+            // }
           },
           prefill: {
             name: 'example name',
             email: 'email@example.com',
-            contact: '111111',
+            contact: '9400261560',
           },
           notes: {
             address: 'example address',
