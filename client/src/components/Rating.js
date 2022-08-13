@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const Rating = ({ rating, text }) => {
+const Rating = ({ rating, numReviews }) => {
   return (
     <div className='flex items-end gap-2'>
       <div className='flex'>
@@ -171,7 +171,9 @@ const Rating = ({ rating, text }) => {
         </span>
       </div>
       <div>
-        <p className='font-light text-gray-600 mt-auto'>{text && text}</p>
+        <p className='font-light text-gray-600 mt-auto'>
+          {numReviews > 0 ? `${numReviews} reviews` : 'No reviews yet'}
+        </p>
       </div>
     </div>
   )
@@ -179,13 +181,14 @@ const Rating = ({ rating, text }) => {
 
 Rating.propTypes = {
   rating: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
+  numReviews: PropTypes.string.isRequired,
 }
 
 //To give default values to props
 //eg:
-// Rating.defaultProps={
-//   rating: 0,
-// }
+Rating.defaultProps = {
+  rating: 1,
+  numReviews: '0',
+}
 
 export default Rating

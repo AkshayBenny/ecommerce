@@ -11,7 +11,7 @@ import Meta from '../components/Meta'
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1)
   const [userReview, setUserReview] = useState({
-    rating: 0,
+    rating: 1,
     comment: '',
   })
   const { pid } = useParams()
@@ -30,7 +30,6 @@ const ProductPage = () => {
   useEffect(() => {
     dispatch(getProduct(pid))
   }, [pid, dispatch])
-
   const reviewSubmitHandler = (e) => {
     e.preventDefault()
     let id = pid
@@ -69,14 +68,9 @@ const ProductPage = () => {
             />
           </div>
           <div>
-            <h1 className=''>{product?.name}</h1>
+            <h1 className='text-xl font-semibold'>{product?.name}</h1>
             <hr />
-            {product.rating && (
-              <Rating
-                rating={product.rating}
-                text={`${product.numReviews} reviews`}
-              />
-            )}
+            <Rating rating={4} numReviews={product?.numReviews} />
             <hr />
             <h4>Price: {product.price}$</h4>
             <p>{product?.description}</p>
@@ -115,6 +109,20 @@ const ProductPage = () => {
             <h1 className='text-xl font-light mt-24'>Reviews</h1>
             {userInfo ? (
               <form onSubmit={reviewSubmitHandler} className='mt-12'>
+                <select
+                  onChange={(e) =>
+                    setUserReview((prev) => ({
+                      ...prev,
+                      rating: parseInt(e.target.value),
+                    }))
+                  }
+                >
+                  <option value='1'>1</option>
+                  <option value='1'>2</option>
+                  <option value='1'>3</option>
+                  <option value='1'>4</option>
+                  <option value='1'>5</option>
+                </select>
                 <textarea
                   placeholder='Post your review'
                   className='w-full border italic p-4'
@@ -135,6 +143,7 @@ const ProductPage = () => {
           <div className='mt-12'>
             {product.reviews &&
               product.reviews.map((review, index) => {
+                console.log(review)
                 return (
                   <div className=' border-y space-y-3' key={index}>
                     <div className='flex items-center gap-4'>

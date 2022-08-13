@@ -38,6 +38,7 @@
     "nodemon": "^2.0.16",
     "razorpay": "^2.8.2",
     "react-loading": "^2.0.3",
-    "react-paypal-button-v2": "^2.6.3"
+    "react-paypal-button-v2": "^2.6.3",
+    "uuid": "^8.3.2"
   }
 }
