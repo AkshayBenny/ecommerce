@@ -170,11 +170,6 @@ const Rating = ({ rating, numReviews }) => {
           )}
         </span>
       </div>
-      <div>
-        <p className='font-light text-gray-600 mt-auto'>
-          {numReviews > 0 ? `${numReviews} reviews` : 'No reviews yet'}
-        </p>
-      </div>
     </div>
   )
 }

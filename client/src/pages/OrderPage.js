@@ -47,7 +47,6 @@ const OrderPage = () => {
   if (oidLoading) {
     return <div>Loading...</div>
   }
-  console.log(orderById)
   return (
     <div>
       <h1>Order Summary</h1>

@@ -57,59 +57,81 @@ const ProductPage = () => {
 
   if (product) {
     return (
-      <div>
+      <div className='max-w-screen'>
         <Meta title={product?.name} />
-        <div className='grid  lg:grid-cols-3'>
-          <div>
+        <div className='grid lg:pr-4  lg:grid-cols-2 gap-12'>
+          <div className='bg-myPurple flex items-center justify-center'>
             <img
               src={product?.image}
               alt={product?.name}
-              className='w-full object-cover'
+              className='max-h-[600px] object-cover bg-myPurple aspect-square'
             />
           </div>
-          <div>
-            <h1 className='text-xl font-semibold'>{product?.name}</h1>
-            <hr />
-            <Rating rating={4} numReviews={product?.numReviews} />
-            <hr />
-            <h4>Price: {product.price}$</h4>
-            <p>{product?.description}</p>
-          </div>
-          <div>
-            <button
-              onClick={() => {
-                quantity > 1 ? setQuantity(quantity - 1) : setQuantity(quantity)
-              }}
-            >
-              -
-            </button>
-            <p>{quantity}</p>
-            <button
-              onClick={() => {
-                quantity < product.countInStock
-                  ? setQuantity(quantity + 1)
-                  : setQuantity(quantity)
-              }}
-            >
-              +
-            </button>
-          </div>
-          <div>
-            <button
-              disabled={product.countInStock === 0}
-              className='bg-black text-white px-4 py-2 hover:text-gray-300 transition disabled:bg-gray-700 disabled:cursor-not-allowed'
-              onClick={addToCartHandler}
-            >
-              Add to cart
-            </button>
+          <div className='px-4 lg:px-0 flex flex-col justify-between'>
+            <div>
+              <h1 className='text-3xl font-medium pb-6'>{product?.name}</h1>
+              <hr />
+              <div className='py-6 space-y-6'>
+                <h4 className='font-extralight text-4xl'>
+                  ₹{product.price} INR
+                </h4>
+                <Rating rating={4} numReviews={product?.numReviews} />
+              </div>
+              <hr />
+              <h1 className='text-xl font-semibold pt-6 pb-3'>Description</h1>
+              <p>{product?.description}</p>
+            </div>
+            <div>
+              <h2 className='text-xl font-semibold pt-6 '>Set quantity</h2>
+              <div className='flex pt-6 items-center gap-4'>
+                <button
+                  className='text-2xl'
+                  onClick={() => {
+                    quantity > 1
+                      ? setQuantity(quantity - 1)
+                      : setQuantity(quantity)
+                  }}
+                >
+                  -
+                </button>
+                <input
+                  type='text'
+                  value={quantity}
+                  className='w-[34px] h-[34px]  rounded-full border px-3'
+                />
+                <button
+                  className='text-2xl'
+                  onClick={() => {
+                    quantity < product.countInStock
+                      ? setQuantity(quantity + 1)
+                      : setQuantity(quantity)
+                  }}
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                disabled={product.countInStock === 0}
+                className='bg-black text-white mt-6  px-4 py-4 text-xl  hover:text-gray-300 transition w-full  disabled:bg-gray-700 disabled:cursor-not-allowed'
+                onClick={addToCartHandler}
+              >
+                Add to cart
+              </button>
+            </div>
           </div>
         </div>
-        <div className='w-full'>
+        <div className='w-full max-w-[1200px] px-4 mx-auto'>
           <div>
-            <h1 className='text-xl font-light mt-24'>Reviews</h1>
+            <h1 className='text-xl font-semibold pt-12 pb-3'>Reviews</h1>
+
             {userInfo ? (
-              <form onSubmit={reviewSubmitHandler} className='mt-12'>
+              <form
+                onSubmit={reviewSubmitHandler}
+                className='mt-12  relative z-0'
+              >
                 <select
+                  className='absolute bottom-5 border bg-black text-white  right-[200px] px-4 py-2  z-40'
                   onChange={(e) =>
                     setUserReview((prev) => ({
                       ...prev,
@@ -118,14 +140,14 @@ const ProductPage = () => {
                   }
                 >
                   <option value='1'>1</option>
-                  <option value='1'>2</option>
-                  <option value='1'>3</option>
-                  <option value='1'>4</option>
-                  <option value='1'>5</option>
+                  <option value='2'>2</option>
+                  <option value='3'>3</option>
+                  <option value='4'>4</option>
+                  <option value='5'>5</option>
                 </select>
                 <textarea
                   placeholder='Post your review'
-                  className='w-full border italic p-4'
+                  className='w-full min-h-[200px]  border italic p-4 bg-slate-100'
                   onChange={(e) =>
                     setUserReview((prev) => ({
                       ...prev,
@@ -133,35 +155,34 @@ const ProductPage = () => {
                     }))
                   }
                 ></textarea>
-                <button className='bg-black p-2 text-white mt-2 '>Post</button>
+                <button className='bg-black px-4 py-2 text-lg absolute right-4 bottom-4 z-50 text-white mt-2 '>
+                  Post
+                </button>
               </form>
             ) : (
               <p className='italic opacity-50'>Login in add a review</p>
             )}
           </div>
 
-          <div className='mt-12'>
+          <div className='mt-12 py-12'>
             {product.reviews &&
               product.reviews.map((review, index) => {
-                console.log(review)
                 return (
-                  <div className=' border-y space-y-3' key={index}>
-                    <div className='flex items-center gap-4'>
+                  <div className='pt-4 border-t space-y-3' key={index}>
+                    <div className='flex gap-4 items-center'>
                       <div>
                         <h4 className='font-bold'>{review.name}</h4>
-                        <p className='opacity-[40%] italic font-medium'>
-                          {review.createdAt.substring(0, 10)}
-                        </p>
                       </div>
-                      <Rating rating={review.rating} />
+                      <div className='w-2 h-2 rounded-full bg-slate-300'></div>
+                      <p className='opacity-[40%] italic font-light '>
+                        Created on {review.createdAt.substring(0, 10)}
+                      </p>
                     </div>
-                    <p className='opacity-[70%] italic'>{review.comment}</p>
+                    <Rating rating={review.rating} />
+                    <p className='text-xl pt-8 '>{review.comment}</p>
                   </div>
                 )
               })}
-            {product?.reviews?.length === 0 && (
-              <p className='italic opacity-50'>No reviews yet</p>
-            )}
           </div>
         </div>
       </div>

@@ -1,61 +1,39 @@
-import { ShoppingCartIcon, LoginIcon } from '@heroicons/react/outline'
+import { ShoppingBagIcon, LoginIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logOut } from '../redux/user/userSlice'
+import AdminDropDown from './AdminDropDown'
+import UserDropDown from './UserDropDown'
 import SearchBox from './SearchBox'
 const Header = () => {
   const { user } = useSelector((state) => state.user)
-  const dispatch = useDispatch()
+  const { cartItems } = useSelector((state) => state.cart)
 
+  const dispatch = useDispatch()
   return (
-    <header className='sticky top-0 flex justify-between items-center h-24 bg-gray-800 text-white px-4 md:px-24 uppercase'>
+    <header className='sticky top-0 flex justify-between items-center h-14 z-50 bg-white text-black px-4  uppercase'>
       <Link to='/'>
-        <div className='text-3xl hover:cursor-pointer'>A-Shop</div>
+        <div className='text-3xl hover:cursor-pointer'>gauss.</div>
       </Link>
       <SearchBox />
       <div className='flex items-center gap-12'>
-        <div className='btn-hover flex justify-center items-center gap-2'>
-          <div className='mr-6 italic text-gray-400'>
-            {user.isAdmin && (
-              <div className='flex items-center justify-center gap-3'>
-                <Link to='/admin/products'>Products</Link>
-                <Link to='/admin/users'>Users</Link>
-                <Link to='/admin/orders'>Orders</Link>
-              </div>
-            )}
+        <div className='flex justify-center items-center gap-9'>
+          <div className='mr-6  text-gray-400'>
+            {user.isAdmin && <AdminDropDown />}
           </div>
           <Link to='/cart'>
-            <div className='btn-hover flex justify-center items-center gap-2'>
-              <ShoppingCartIcon className='h-5' />
-              <p>Cart</p>
-            </div>
-          </Link>
-
-          <Link to='/profile'>
-            <div className='btn-hover flex justify-center items-center gap-2'>
-              <p>Profile</p>
-            </div>
-          </Link>
-
-          <div>
-            {user.name ? (
-              <div
-                onClick={() => {
-                  dispatch(logOut())
-                  localStorage.removeItem('userInfo')
-                }}
-              >
-                <p className='text-white'>{user.name}</p>
-              </div>
-            ) : (
-              <Link to='/login'>
-                <div className='btn-hover flex justify-center items-center gap-2'>
-                  <LoginIcon className='h-5' />
-                  <p>Login</p>
+            <div className='relative  flex justify-center items-center gap-2'>
+              <ShoppingBagIcon className='h-6' />
+              {cartItems.length === 0 ? (
+                <></>
+              ) : (
+                <div className='absolute top-[-6px] right-[-6px] w-4 h-4 bg-myPink rounded-full  text-white p-2 flex items-center justify-center font-semibold text-xs'>
+                  <p>{cartItems && cartItems?.length}</p>
                 </div>
-              </Link>
-            )}
-          </div>
+              )}
+            </div>
+          </Link>
+          <UserDropDown />
         </div>
       </div>
     </header>

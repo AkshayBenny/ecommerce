@@ -5,6 +5,8 @@ const initialState = {
   products: [],
   topProductsRes: [],
   topProductsResIsLoading: false,
+  latestProductsRes: [],
+  latestProductsResIsLoading: false,
   allProductsAdmin: [],
   adminDeleteProductByIdIsLoading: false,
   adminCreateProduct: {},
@@ -41,6 +43,16 @@ export const getTopProducts = createAsyncThunk(
   'products/getTopProducts',
   async () => {
     const { data } = await axios.get('http://localhost:5000/api/products/top')
+    return data
+  }
+)
+
+export const getLatestProducts = createAsyncThunk(
+  'products/getLatestProducts',
+  async () => {
+    const { data } = await axios.get(
+      'http://localhost:5000/api/products/latest'
+    )
     return data
   }
 )
@@ -199,6 +211,17 @@ export const productSlice = createSlice({
     },
     [getTopProducts.rejected]: (state, action) => {
       state.topProductsResIsLoading = false
+      state.error = action.payload
+    },
+    [getLatestProducts.pending]: (state) => {
+      state.latestProductsResIsLoading = true
+    },
+    [getLatestProducts.fulfilled]: (state, action) => {
+      state.latestProductsResIsLoading = false
+      state.latestProductsRes = action.payload.latestProducts
+    },
+    [getLatestProducts.rejected]: (state, action) => {
+      state.latestProductsResIsLoading = false
       state.error = action.payload
     },
     [getAllProductsAdmin.pending]: (state) => {

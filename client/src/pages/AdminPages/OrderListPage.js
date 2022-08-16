@@ -14,7 +14,6 @@ const OrderListPage = () => {
     dispatch(adminGetAllOrders())
   }, [])
 
-  console.log(adminGetAllOrdersRes)
 
   if (adminGetAllOrdersResIsLoading) {
     return <div>Loading...</div>

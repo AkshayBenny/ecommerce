@@ -3,8 +3,15 @@ import Product from '../components/Product'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactLoading from 'react-loading'
 import { useEffect } from 'react'
-import { getAllProducts, getTopProducts } from '../redux/product/productsSlice'
+import {
+  getAllProducts,
+  getLatestProducts,
+  getTopProducts,
+} from '../redux/product/productsSlice'
 import Meta from '../components/Meta'
+import TopProducts from '../components/TopProducts'
+import { getCart } from '../redux/cart/cartSlice'
+import LatestProducts from '../components/LatestProducts'
 
 const HomePage = () => {
   const {
@@ -13,7 +20,7 @@ const HomePage = () => {
     products,
     isLoading,
     topProductsRes,
-    topProductsResIsLoading,
+    latestProductsRes,
     error,
   } = useSelector((state) => state.products)
   const dispatch = useDispatch()
@@ -26,12 +33,13 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getAllProducts({ keyword }))
     dispatch(getTopProducts())
+    dispatch(getLatestProducts())
+    dispatch(getCart())
   }, [dispatch, keyword])
 
   const pageHandler = (page) => {
     dispatch(getAllProducts({ keyword, page }))
   }
-  console.log(topProductsRes)
 
   if (error) {
     return <div>Something went wrong...</div>
@@ -48,23 +56,56 @@ const HomePage = () => {
   return (
     <>
       <Meta />
-      <div className='flex gap-2'>
-        {pagesArray.length > 1 &&
-          pagesArray.map((page, index) => {
-            return (
-              <button
-                key={index}
-                onClick={() => pageHandler(page)}
-                className={` border  py-2 px-3  ${
-                  currentPage === page ? 'bg-black text-white' : ''
-                }`}
-              >
-                {page}
-              </button>
-            )
-          })}
+      <div>
+        {topProductsRes.products ? (
+          <TopProducts data={topProductsRes.products} />
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
-      <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-6'>
+      <div className='min-h-[350px] bg-white py-24 text-black gap-9 flex flex-col lg:flex-row items-center justify-center'>
+        <div className='hidden lg:grid mx-4'>
+          <p className='font-black text-7xl tracking-wider'>We help</p>
+          <p className='font-black text-7xl tracking-wider '>you find</p>
+          <p className='font-black text-7xl tracking-wider text-myPink'>
+            quality
+          </p>
+          <p className='font-black text-7xl tracking-wider text-myPurple'>
+            products
+          </p>
+        </div>
+        <div className='flex flex-col px-4 lg:hidden w-full'>
+          <p className='font-black text-7xl tracking-wider'>We help you find</p>
+          <div className='flex flex-wrap gap-2'>
+            <p className='font-black text-7xl tracking-wider text-myPink'>
+              quality
+            </p>
+            <p className='font-black text-7xl tracking-wider text-myPurple'>
+              products
+            </p>
+          </div>
+          <p className='grid lg:hidden pt-12 tracking-widest max-w-[700px] leading-6 text-xl'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
+            perspiciatis placeat ipsa maiores. Nostrum iste architecto expedita
+            amet omnis dolor nihil et laudantium. Voluptas neque rerum veritatis
+            vitae accusamus id.
+          </p>
+        </div>
+        <p className='tracking-widest hidden lg:grid max-w-[700px] leading-6 text-xl'>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque
+          dolore nemo deleniti nihil molestias ex explicabo cum quaerat? Vel
+          sequi sunt impedit nulla omnis quisquam porro modi excepturi
+          consequatur alias. Obcaecati vitae veritatis iusto facere accusamus
+          perferendis.
+        </p>
+      </div>
+      <div className='w-full bg-black px-4 pt-12  pb-2 uppercase'>
+        <p className='text-white font-bold text-4xl text-center'>
+         Our Latest Additions
+        </p>
+      </div>
+      <LatestProducts products={latestProductsRes} />
+      <div className='grid md:grid-cols-2 xl:grid-cols-3 '>
         {products.length === 0 && <div>No products found</div>}
         {products?.map((product, index) => {
           return (
@@ -73,6 +114,24 @@ const HomePage = () => {
             </Link>
           )
         })}
+      </div>
+      <div className='w-full flex justify-center'>
+        <div className='flex gap-2 my-9 w-fit'>
+          {pagesArray.length > 1 &&
+            pagesArray.map((page, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={() => pageHandler(page)}
+                  className={` border  py-2 px-3  ${
+                    currentPage === page ? 'bg-black text-white' : ''
+                  }`}
+                >
+                  {page}
+                </button>
+              )
+            })}
+        </div>
       </div>
     </>
   )

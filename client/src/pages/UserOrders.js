@@ -9,7 +9,6 @@ const UserOrders = () => {
   )
   const dispatch = useDispatch()
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  console.log(getOrderByUserIdRes.userOrders)
   const orders = getOrderByUserIdRes.userOrders
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const UserOrders = () => {
       <h1>UserOrders</h1>
       <div className='space-y-4'>
         {orders?.map((order, index) => {
-          console.log(order)
           return (
             <div key={index} className='border w-full '>
               <div className='flex items-center gap-2 flex-wrap'>

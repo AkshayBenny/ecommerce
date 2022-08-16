@@ -35,6 +35,13 @@ export const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3)
   res.json({ products })
 })
+// @desc GET latest products
+// @route GET /api/products/latest
+// @access Public
+export const getLatestProducts = asyncHandler(async (req, res) => {
+  const latestProducts = await Product.find().sort({ createdAt: -1 }).limit(6)
+  res.json({ latestProducts })
+})
 
 // @desc Fetch a product
 // @route GET /api/products/:id

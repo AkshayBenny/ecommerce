@@ -1,9 +1,14 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        myPurple: '#7F55CA',
+        myPink: '#E35980',
+        myGreen: '#78D9B1',
+      },
+     
+    },
   },
   plugins: [],
 }

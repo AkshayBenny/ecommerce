@@ -2,6 +2,7 @@ import express from 'express'
 import {
   addReview,
   getAllProducts,
+  getLatestProducts,
   getProductById,
   getTopProducts,
 } from '../controllers/productController.js'
@@ -19,6 +20,12 @@ router.route('/').get(getAllProducts)
 // @route GET /api/products/top
 // @access Public
 router.route('/top').get(getTopProducts)
+
+// @desc Get latest products
+// @route GET /api/products/latest
+// @access Public
+router.route('/latest').get(getLatestProducts)
+
 
 // @desc Fetch all products for admin
 // @route GET /api/products

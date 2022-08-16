@@ -58,7 +58,6 @@ const PaymentPage = () => {
         paymentObject.open()
       } catch (error) {
         alert(error)
-        console.log(orderResult)
         setLoading(false)
       }
     }

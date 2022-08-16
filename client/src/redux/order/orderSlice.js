@@ -153,7 +153,6 @@ export const adminUpdateOrderToDelivered = createAsyncThunk(
   async ({ id }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
-    console.log(token)
     const config = {
       headers: {
         'Content-Type': 'application/json',

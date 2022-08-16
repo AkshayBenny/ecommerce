@@ -22,10 +22,10 @@ const CartPage = () => {
 
   if (cartItems && cartItems.length > 0) {
     return (
-      <div className='grid grid-cols-2'>
-        <div>
+      <div className='grid lg:grid-cols-2 px-4'>
+        <div className='space-y-4 w-full'>
           {cartItems?.map((product, index) => {
-            return <CartProduct key={index} product={product.product} />
+            return <CartProduct key={index} product={product.product} index={index} />
           })}
           <Link to='/shipping'>
             <button className='px-4 py-2 bg-black text-white cursor-pointer'>

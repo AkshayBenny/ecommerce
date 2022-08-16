@@ -17,14 +17,14 @@ const SearchBox = () => {
   return (
     <form
       onSubmit={submitHandler}
-      className='bg-white rounded cursor-pointer flex items-center justify-center py-2 px-4 focus:shadow-lg text-black'
+      className='bg-white  cursor-pointer flex items-center justify-center py-2 px-4 focus:shadow-lg text-black border w-full max-w-3xl'
     >
       <input
         type='text'
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         placeholder='Search'
-        className='focus:outline-none focus:ring-transparent focus:border-none'
+        className='focus:outline-none w-full focus:ring-transparent focus:border-none'
       />
       <button>
         <SearchIcon className='text-gray-400 h-6 w-6' />

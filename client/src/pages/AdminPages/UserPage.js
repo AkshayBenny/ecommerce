@@ -37,7 +37,6 @@ const UserPage = () => {
       setIsAdmin(userData.user.isAdmin)
     }
   }, [userData, getUserByIdIsLoading])
-  console.log(name, email, isAdmin)
   const deleteUserHandler = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       dispatch(deleteUser({ id }))
