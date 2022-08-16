@@ -34,6 +34,23 @@ export default function UserDropDown() {
         <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none '>
           <div className='py-1'>
             {user.name && (
+              <Menu.Item className='px-4 pb-4'>
+                {({ active }) => (
+                  <p
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-[10px]'
+                    )}
+                  >
+                    <div>
+                      <p className='font-semibold normal-case pb-1'>Signed in as</p>
+                      <p className=''>{user.name}</p>
+                    </div>
+                  </p>
+                )}
+              </Menu.Item>
+            )}
+            {user.name && (
               <Menu.Item>
                 {({ active }) => (
                   <Link
@@ -48,28 +65,14 @@ export default function UserDropDown() {
                 )}
               </Menu.Item>
             )}
-            {user.name && (
-              <Menu.Item >
-                {({ active }) => (
-                  <p
-                    className={classNames(
-                      active ? 'bg-gray-100 cursor-pointer text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                  >
-                    <div>
-                      <p className='font-bold normal-case pb-1'>Signed in as</p>
-                      <p className=''>{user.name}</p>
-                    </div>
-                  </p>
-                )}
-              </Menu.Item>
-            )}
+
             <Menu.Item>
               {({ active }) => (
                 <p
                   className={classNames(
-                    active ? 'bg-gray-100 cursor-pointer text-gray-900' : 'text-gray-700',
+                    active
+                      ? 'bg-gray-100 cursor-pointer text-gray-900'
+                      : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
                 >

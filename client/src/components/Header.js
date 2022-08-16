@@ -11,7 +11,7 @@ const Header = () => {
 
   const dispatch = useDispatch()
   return (
-    <header className='sticky top-0 flex justify-between items-center h-14 z-50 bg-white text-black px-4  uppercase'>
+    <header className='sticky top-0 flex justify-between items-center h-14 z-50 bg-white text-black px-4 border-b  uppercase'>
       <Link to='/'>
         <div className='text-3xl hover:cursor-pointer'>gauss.</div>
       </Link>
