@@ -1,5 +1,10 @@
 import express from 'express'
-import { addToCart, getCartItems } from '../controllers/cartController.js'
+import {
+  addToCart,
+  changeQty,
+  deleteCartItem,
+  getCartItems,
+} from '../controllers/cartController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
@@ -16,9 +21,14 @@ router.route('/').get(protect, getCartItems)
 // @access Private
 router.route('/add').post(protect, addToCart)
 
-// @desc Remove from cart
-// @route POST /api/cart/remove
+// @desc Change product quantity in cart
+// @route PUT /api/cart/qty
 // @access Private
-// router.route('/remove').put(protect,removeFromCart)
+router.route('/qty').post(protect, changeQty)
+
+// @desc Remove from cart
+// @route DELETE /api/cart/remove/:id
+// @access Private
+router.route('/:id').delete(protect, deleteCartItem)
 
 export default router

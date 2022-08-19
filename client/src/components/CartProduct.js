@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-const CartProduct = ({ product, index }) => {
-  const [quantity, setQuantity] = useState(1)
-
+const CartProduct = ({ product, userCartItem, index }) => {
+  const [quantity, setQuantity] = useState(userCartItem.quantity)
+  console.log(userCartItem)
   return (
     <div className='flex flex-col lg:flex-row w-full my-6 lg:my-0'>
       <div className='lg:flex  jusity-between gap-4  w-full'>
@@ -34,7 +34,7 @@ const CartProduct = ({ product, index }) => {
             <input
               type='text'
               value={quantity}
-              className='w-[34px] h-[34px]  rounded-full border px-3'
+              className='w-[34px] h-[34px]  border px-2'
             />
             <button
               className='text-2xl'

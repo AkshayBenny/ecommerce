@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Rating from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../redux/product/productSlice'
 import ReactLoading from 'react-loading'
-import { addToCart } from '../redux/cart/cartSlice'
+import { addToCart, getCart } from '../redux/cart/cartSlice'
 import { addReview } from '../redux/product/productsSlice'
 import Meta from '../components/Meta'
 
@@ -15,8 +15,9 @@ const ProductPage = () => {
     comment: '',
   })
   const { pid } = useParams()
-  const { product, isLoading, error, addReviewResIsLoading, addReviewRes } =
-    useSelector((state) => state.product)
+  const { product, isLoading, error } = useSelector((state) => state.product)
+  const { addReviewResIsLoading } = useSelector((state) => state.products)
+  const { addToCartResIsLoading } = useSelector((state) => state.cart)
   const dispatch = useDispatch()
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const addToCartHandler = () => {
@@ -27,16 +28,21 @@ const ProductPage = () => {
     }
     dispatch(addToCart({ cartItems }))
   }
+
+  useEffect(() => {
+    dispatch(getCart())
+  }, [addToCartResIsLoading])
+
   useEffect(() => {
     dispatch(getProduct(pid))
-  }, [pid, dispatch])
+  }, [pid, dispatch, addReviewResIsLoading])
   const reviewSubmitHandler = (e) => {
     e.preventDefault()
     let id = pid
     let rating = userReview.rating
     let comment = userReview.comment
     dispatch(addReview({ id, comment, rating }))
-    dispatch(getProduct(pid))
+
     setUserReview({
       rating: 0,
       comment: '',
@@ -111,12 +117,23 @@ const ProductPage = () => {
                 </button>
               </div>
 
-              <button
+              {/* <button
                 disabled={product.countInStock === 0}
                 className='bg-black text-white mt-6  px-4 py-4 text-xl  hover:text-gray-300 transition w-full  disabled:bg-gray-700 disabled:cursor-not-allowed'
                 onClick={addToCartHandler}
               >
                 Add to cart
+              </button> */}
+              <button
+                disabled={product.countInStock === 0}
+                onClick={addToCartHandler}
+                className='mt-12 relative w-full px-4 py-3 font-medium group'
+              >
+                <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+                <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+                <span className='relative text-black group-hover:text-white'>
+                  Add to cart
+                </span>
               </button>
             </div>
           </div>
@@ -155,9 +172,16 @@ const ProductPage = () => {
                     }))
                   }
                 ></textarea>
-                <button className='bg-black px-4 py-2 text-lg absolute right-4 bottom-4 z-50 text-white mt-2 '>
-                  Post
-                </button>
+
+                <div className='absolute right-4 bottom-4 z-50 mt-2'>
+                  <button className='mt-12 relative w-full px-5 py-3 font-medium group'>
+                    <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+                    <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+                    <span className='relative text-black group-hover:text-white'>
+                      Post
+                    </span>
+                  </button>
+                </div>
               </form>
             ) : (
               <p className='italic opacity-50'>Login in add a review</p>

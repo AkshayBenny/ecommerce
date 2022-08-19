@@ -25,6 +25,7 @@ import ProfilePage from './pages/ProfilePage'
 import UserOrders from './pages/UserOrders'
 import OrderListPage from './pages/AdminPages/OrderListPage'
 import OrderDetailsPage from './pages/AdminPages/OrderDetailsPage'
+import AllProductsPage from './pages/AllProductsPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -51,6 +52,7 @@ function App() {
         <Routes>
           <Route path='/search/:id' element={<HomePage />} exact />
           <Route path='/' element={<HomePage />} exact />
+          <Route path='/products' element={<AllProductsPage />} exact />
           <Route path='/product/:pid' element={<ProductPage exact />} />
           <Route path='/login' element={<SignInPage />} exact />
           <Route path='/register' element={<RegisterPage />} exact />

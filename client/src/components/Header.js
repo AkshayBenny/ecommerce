@@ -1,15 +1,19 @@
-import { ShoppingBagIcon, LoginIcon } from '@heroicons/react/outline'
+import { ShoppingBagIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { logOut } from '../redux/user/userSlice'
 import AdminDropDown from './AdminDropDown'
 import UserDropDown from './UserDropDown'
 import SearchBox from './SearchBox'
+import { useEffect } from 'react'
+import { getCart } from '../redux/cart/cartSlice'
 const Header = () => {
   const { user } = useSelector((state) => state.user)
   const { cartItems } = useSelector((state) => state.cart)
-
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getCart())
+  }, [dispatch])
+
   return (
     <header className='sticky top-0 flex justify-between items-center h-14 z-50 bg-white text-black px-4 border-b  uppercase'>
       <Link to='/'>
@@ -24,7 +28,7 @@ const Header = () => {
           <Link to='/cart'>
             <div className='relative  flex justify-center items-center gap-2'>
               <ShoppingBagIcon className='h-6' />
-              {cartItems.length === 0 ? (
+              {cartItems?.length === 0 ? (
                 <></>
               ) : (
                 <div className='absolute top-[-6px] right-[-6px] w-4 h-4 bg-myPink rounded-full  text-white p-2 flex items-center justify-center font-semibold text-xs'>

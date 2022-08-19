@@ -101,7 +101,7 @@ const HomePage = () => {
       </div>
       <div className='w-full bg-black px-4 pt-12  pb-2 uppercase'>
         <p className='text-white font-bold text-4xl text-center'>
-         Our Latest Additions
+          Our Latest Additions
         </p>
       </div>
       <LatestProducts products={latestProductsRes} />
@@ -116,7 +116,7 @@ const HomePage = () => {
         })}
       </div>
       <div className='w-full flex justify-center'>
-        <div className='flex gap-2 my-9 w-fit'>
+        {/* <div className='flex gap-2 my-9 w-fit'>
           {pagesArray.length > 1 &&
             pagesArray.map((page, index) => {
               return (
@@ -131,7 +131,17 @@ const HomePage = () => {
                 </button>
               )
             })}
-        </div>
+        </div> */}
+        <Link
+          to='/products'
+          className='mt-12 relative inline-block px-4 py-3 font-medium group'
+        >
+          <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+          <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+          <span className='relative text-black group-hover:text-white'>
+            See all products &#62;&#62;
+          </span>
+        </Link>
       </div>
     </>
   )

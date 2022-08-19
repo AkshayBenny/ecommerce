@@ -12,7 +12,6 @@ const CartPage = () => {
   useEffect(() => {
     dispatch(getCart())
   }, [dispatch])
-
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -32,12 +31,13 @@ const CartPage = () => {
               <CartProduct
                 key={index}
                 product={product.product}
+                userCartItem={product.userCartItems}
                 index={index}
               />
             )
           })}
         </div>
-        <div className='mt-12  flex flex-col lg:justify-between lg:mt-0 lg:border-2 border-black lg:p-6 space-y-4 max-w-[500px] w-full ml-auto'>
+        <div className='mt-12  flex flex-col lg:justify-between lg:mt-0 lg:border-2 border-black max-h-[600px] lg:p-6 space-y-4 max-w-[500px] w-full ml-auto'>
           <div className='space-y-4'>
             <div className='font-medium text-black opacity-40 flex justify-between items-center'>
               <p className=''>Subtotal</p>
@@ -56,15 +56,23 @@ const CartPage = () => {
               <p>{total}₹</p>
             </div>
           </div>
-          <div className='flex flex-col gap-4 '>
+          <div className='flex flex-col gap-4'>
             <Link to='/shipping'>
-              <button className='p-3 w-full border-black border-2  bg-black text-white cursor-pointer'>
-                Proceed to checkout
+              <button className='mt-12 relative w-full px-5 py-3 font-medium group'>
+                <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+                <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+                <span className='relative text-black group-hover:text-white'>
+                  Proceed to checkout
+                </span>
               </button>
             </Link>
             <Link to='/'>
-              <button className='p-3 bg-white w-full border-2 border-black text-black cursor-pointer'>
-                Continue shopping
+              <button className=' relative w-full px-5 py-3 font-medium group'>
+                <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+                <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+                <span className='relative text-black group-hover:text-white'>
+                  Continue shopping
+                </span>
               </button>
             </Link>
           </div>

@@ -7,6 +7,10 @@ const initialState = {
   quantity: 0,
   total: 0,
   isLoading: true,
+  addToCartRes: [],
+  addToCartResIsLoading: false,
+  getCartRes: [],
+  getCartResIsLoading: false,
 }
 
 export const addToCart = createAsyncThunk(
@@ -88,24 +92,32 @@ export const cartSlice = createSlice({
   extraReducers: {
     [addToCart.pending]: (state) => {
       state.isLoading = true
+      state.addToCartResIsLoading = true
     },
     [addToCart.fulfilled]: (state, action) => {
       state.isLoading = false
+      state.addToCartResIsLoading = false
+      state.addToCartRes = action.payload
     },
     [addToCart.rejected]: (state) => {
       state.isLoading = true
+      state.addToCartResIsLoading = false
     },
     [getCart.pending]: (state) => {
       state.isLoading = true
+      state.getCartResIsLoading = true
     },
     [getCart.fulfilled]: (state, action) => {
       state.isLoading = false
       const { userProducts, totalPrice } = action.payload
       state.cartItems = userProducts
       state.total = totalPrice
+      state.getCartResIsLoading = false
+      state.getCartRes = action.payload
     },
     [getCart.rejected]: (state) => {
       state.isLoading = true
+      state.getCartResIsLoading = true
     },
   },
 })
