@@ -1,17 +1,16 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, LoginIcon } from '@heroicons/react/solid'
+import { LoginIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 import { logOut } from '../redux/user/userSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function UserDropDown() {
-  const { user } = useSelector((state) => state.user)
+  const user = JSON.parse(localStorage.getItem('userInfo'))
   const dispatch = useDispatch()
 
   return (
@@ -33,7 +32,7 @@ export default function UserDropDown() {
       >
         <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none '>
           <div className='py-1'>
-            {user.name && (
+            {user.fname && (
               <Menu.Item className='px-4 pb-4'>
                 {({ active }) => (
                   <p
@@ -43,14 +42,18 @@ export default function UserDropDown() {
                     )}
                   >
                     <div>
-                      <p className='font-semibold normal-case pb-1'>Signed in as</p>
-                      <p className=''>{user.name}</p>
+                      <p className='font-semibold normal-case pb-1'>
+                        Signed in as
+                      </p>
+                      <p className=''>
+                        {user.fname} {user.lname}
+                      </p>
                     </div>
                   </p>
                 )}
               </Menu.Item>
             )}
-            {user.name && (
+            {user.fname && (
               <Menu.Item>
                 {({ active }) => (
                   <Link
@@ -76,7 +79,7 @@ export default function UserDropDown() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  {user.name ? (
+                  {user.fname ? (
                     <div
                       onClick={() => {
                         dispatch(logOut())

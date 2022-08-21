@@ -6,12 +6,14 @@ import { Link } from 'react-router-dom'
 import Meta from '../components/Meta'
 
 const CartPage = () => {
-  const { cartItems, total, isLoading } = useSelector((state) => state.cart)
+  const { cartItems, total, isLoading, deleteCartRes } = useSelector(
+    (state) => state.cart
+  )
 
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getCart())
-  }, [dispatch])
+  }, [dispatch, deleteCartRes])
   if (isLoading) {
     return <div>Loading...</div>
   }

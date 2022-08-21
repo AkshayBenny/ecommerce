@@ -36,7 +36,9 @@ const UserList = () => {
         {userList?.map((user, index) => {
           return (
             <div key={index} className='border p-4'>
-              <h2>{user.name}</h2>
+              <h2>
+                {user.fname} {user.lname}
+              </h2>
               <p>{user.email}</p>
               <Link to={`${user._id}/`}>
                 <button className='bg-gray-500 text-white'>Edit</button>

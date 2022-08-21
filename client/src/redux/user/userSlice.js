@@ -4,7 +4,6 @@ import axios from 'axios'
 const initialState = {
   getUserById: {},
   getUserByIdIsLoading: false,
-  
   editUser: {},
   editUserIsLoading: false,
   userList: [],
@@ -36,7 +35,7 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  async ({ email, password, name }) => {
+  async ({ email, password, fname, lname }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ export const registerUser = createAsyncThunk(
     }
     const { data } = await axios.post(
       'http://localhost:5000/api/users/register',
-      { email, password, name },
+      { email, password, fname, lname },
       config
     )
     localStorage.setItem('userInfo', JSON.stringify(data))
@@ -54,7 +53,7 @@ export const registerUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async ({ email, password, name }) => {
+  async ({ email, fname, lname, phone, password }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
     const config = {
@@ -65,7 +64,7 @@ export const updateUser = createAsyncThunk(
     }
     const { data } = await axios.put(
       'http://localhost:5000/api/users/profile/update',
-      { email, password, name },
+      { email, fname, lname, phone, password },
       config
     )
     localStorage.setItem('userInfo', JSON.stringify(data))
@@ -114,7 +113,7 @@ export const deleteUser = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   'user/editUser',
-  async ({ id, name, email, isAdmin }) => {
+  async ({ id, fname, lname, phone, email, isAdmin }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
     const config = {
@@ -125,7 +124,7 @@ export const editUser = createAsyncThunk(
     }
     const { data } = await axios.put(
       `http://localhost:5000/api/admin/users/${id}`,
-      { name, email, isAdmin },
+      { fname, lname, phone, email, isAdmin },
 
       config
     )

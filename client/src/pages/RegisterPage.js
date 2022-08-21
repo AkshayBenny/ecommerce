@@ -7,13 +7,14 @@ const RegisterPage = () => {
 
   const dispatch = useDispatch()
 
-  const [name, setName] = useState('')
+  const [fname, setFname] = useState('')
+  const [lname, setLname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(registerUser({ name, email, password }))
+    dispatch(registerUser({ fname, lname, email, password }))
   }
 
   if (isLoading) return <div>Loading...</div>
@@ -25,8 +26,14 @@ const RegisterPage = () => {
       <input
         type='text'
         placeholder='name'
-        onChange={(e) => setName(e.target.value)}
-        value={name}
+        onChange={(e) => setFname(e.target.value)}
+        value={fname}
+      />
+      <input
+        type='text'
+        placeholder='name'
+        onChange={(e) => setLname(e.target.value)}
+        value={lname}
       />
       <input
         type='email'

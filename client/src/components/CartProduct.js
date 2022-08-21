@@ -1,8 +1,30 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteCartItem } from '../redux/cart/cartSlice'
+import { addToWishlist } from '../redux/product/productsSlice'
 
 const CartProduct = ({ product, userCartItem, index }) => {
+  const { deleteCartResIsLoading } = useSelector((state) => state.cart)
+  const { addToWishlistRes, addToWishlistResIsLoading } = useSelector(
+    (state) => state.products
+  )
   const [quantity, setQuantity] = useState(userCartItem.quantity)
-  console.log(userCartItem)
+  const [addedToWishlist, setAddedToWishlist] = useState(addToWishlistRes)
+  const dispatch = useDispatch()
+  const deleteHandler = () => {
+    const pid = product._id
+    if (userCartItem._id) {
+      dispatch(deleteCartItem({ pid }))
+    }
+  }
+  const wishlistHandler = () => {
+    const pid = product._id
+    if (userCartItem._id) {
+      dispatch(addToWishlist({ pid }))
+      setAddedToWishlist(!addedToWishlist)
+    }
+  }
+
   return (
     <div className='flex flex-col lg:flex-row w-full my-6 lg:my-0'>
       <div className='lg:flex  jusity-between gap-4  w-full'>
@@ -49,10 +71,24 @@ const CartProduct = ({ product, userCartItem, index }) => {
           </div>
 
           <div className=' flex gap-2'>
-            <button className='bg-myPurple text-white p-3'>
-              Save for later
+            <button
+              disabled={addToWishlistResIsLoading}
+              onClick={wishlistHandler}
+              className='bg-myPurple text-white p-3'
+            >
+              {addToWishlistRes ? (
+                <p>Remove from wishlist</p>
+              ) : (
+                <p>Add to wishlist</p>
+              )}
             </button>
-            <button className='bg-myPink text-white p-3'>Delete</button>
+            <button
+              disabled={deleteCartResIsLoading}
+              onClick={deleteHandler}
+              className='bg-myPink text-white p-3'
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>

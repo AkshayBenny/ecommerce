@@ -23,9 +23,54 @@ const initialState = {
   adminProductById: {},
   adminProductByIdIsLoading: false,
   allProductsAdminIsLoading: false,
+  addToWishlistResIsLoading: false,
+  addToWishlistRes: false,
+  addToWishlistErr: {},
   isLoading: false,
   error: null,
 }
+
+export const addToWishlist = createAsyncThunk(
+  'products/addToWishlist',
+  async ({ pid }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.post(
+      `http://localhost:5000/api/products/wishlist/${pid}`,
+      { pid },
+      config
+    )
+    return data
+  }
+)
+
+export const getWishlist = createAsyncThunk(
+  'products/getWishlist',
+  async ({ pid }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.post(
+      `http://localhost:5000/api/products/wishlist/${pid}`,
+      { pid },
+      config
+    )
+    return data
+  }
+)
 
 export const getAllProducts = createAsyncThunk(
   'products/getAllProducts',
@@ -58,7 +103,7 @@ export const getLatestProducts = createAsyncThunk(
 )
 
 export const getAllProductsAdmin = createAsyncThunk(
-  'user/getAllProductsAdmin',
+  'products/getAllProductsAdmin',
   async () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
@@ -79,7 +124,7 @@ export const getAllProductsAdmin = createAsyncThunk(
 )
 
 export const getProductByIdAdmin = createAsyncThunk(
-  'user/getProductByIdAdmin',
+  'products/getProductByIdAdmin',
   async ({ id }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
@@ -100,7 +145,7 @@ export const getProductByIdAdmin = createAsyncThunk(
 )
 
 export const adminDeleteProductById = createAsyncThunk(
-  'user/adminDeleteProductById',
+  'products/adminDeleteProductById',
   async (id) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
@@ -118,7 +163,7 @@ export const adminDeleteProductById = createAsyncThunk(
   }
 )
 export const adminUpdateProduct = createAsyncThunk(
-  'user/adminUpdateProduct',
+  'products/adminUpdateProduct',
   async ({ id, productData }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
@@ -138,7 +183,7 @@ export const adminUpdateProduct = createAsyncThunk(
   }
 )
 export const adminCreateProduct = createAsyncThunk(
-  'user/adminCreateProduct',
+  'products/adminCreateProduct',
   async ({ productData }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
@@ -159,7 +204,7 @@ export const adminCreateProduct = createAsyncThunk(
 )
 
 export const addReview = createAsyncThunk(
-  'user/addReview',
+  'products/addReview',
   async ({ id, comment, rating }) => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
@@ -212,6 +257,18 @@ export const productSlice = createSlice({
     [getTopProducts.rejected]: (state, action) => {
       state.topProductsResIsLoading = false
       state.error = action.payload
+    },
+    [addToWishlist.pending]: (state) => {
+      state.addToWishlistResIsLoading = true
+    },
+    [addToWishlist.fulfilled]: (state) => {
+      state.addToWishlistResIsLoading = false
+      state.addToWishlistRes = true
+    },
+    [addToWishlist.rejected]: (state, action) => {
+      state.addToWishlistResIsLoading = false
+      state.addToWishlistRes = false
+      state.addToWishlistErr = action.payload
     },
     [getLatestProducts.pending]: (state) => {
       state.latestProductsResIsLoading = true

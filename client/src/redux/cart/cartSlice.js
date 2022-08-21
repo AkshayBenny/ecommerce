@@ -11,6 +11,8 @@ const initialState = {
   addToCartResIsLoading: false,
   getCartRes: [],
   getCartResIsLoading: false,
+  deleteCartRes: [],
+  deleteCartResIsLoading: false,
 }
 
 export const addToCart = createAsyncThunk(
@@ -51,6 +53,26 @@ export const getCart = createAsyncThunk('cart/getCart', async () => {
   localStorage.setItem('cart', JSON.stringify(data))
   return data
 })
+export const deleteCartItem = createAsyncThunk(
+  'cart/deleteCartItem',
+  async ({ pid }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    const token = userInfo.token
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.delete(
+      `http://localhost:5000/api/cart/${pid}`,
+
+      config
+    )
+    localStorage.setItem('cart', JSON.stringify(data))
+    return data
+  }
+)
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -102,6 +124,16 @@ export const cartSlice = createSlice({
     [addToCart.rejected]: (state) => {
       state.isLoading = true
       state.addToCartResIsLoading = false
+    },
+    [deleteCartItem.pending]: (state) => {
+      state.deleteCartResIsLoading = true
+    },
+    [deleteCartItem.fulfilled]: (state, action) => {
+      state.deleteCartResIsLoading = false
+      state.deleteCartRes = action.payload
+    },
+    [deleteCartItem.rejected]: (state) => {
+      state.deleteCartResIsLoading = true
     },
     [getCart.pending]: (state) => {
       state.isLoading = true

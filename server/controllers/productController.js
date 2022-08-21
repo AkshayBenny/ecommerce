@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import Wishlist from '../models/wishlistModel.js'
 
 // @desc Fetch all pro ducts
 // @route GET /api/products
@@ -162,7 +163,8 @@ export const addReview = asyncHandler(async (req, res) => {
     }
     product.numReviews = product.reviews.length
     product.reviews.push({
-      name: req.user.name,
+      fname: req.user.fname,
+      lname: req.user.lname,
       rating: Number(rating),
       user: userId,
       comment: comment,
@@ -176,5 +178,47 @@ export const addReview = asyncHandler(async (req, res) => {
       .json({ message: 'Review added successfully', updatedProduct })
   } else {
     res.status(404).json({ message: 'Product not found' })
+  }
+})
+
+export const addToWishlist = asyncHandler(async (req, res) => {
+  const user = req.user._id
+
+  const whishlistExists = await Wishlist.findOne({ user: user })
+  if (whishlistExists) {
+    const productExist = whishlistExists.wishlist.find(
+      (item) => item.product == req.params.id
+    )
+
+    if (productExist) {
+      await Wishlist.updateOne(
+        { 'wishlist.product': req.params.id },
+        {
+          $pull: {
+            wishlist: { product: req.params.id },
+          },
+        }
+      )
+      res.status(201).json({
+        message: 'Product succesfully removed from wishlist',
+        inWishlist: false,
+      })
+    } else {
+      await Wishlist.findOneAndUpdate(
+        { user: req.user._id },
+        { $push: { wishlist: { product: req.params.id } } }
+      )
+      res
+        .status(201)
+        .json({ message: 'Successfully added to wishlist', inWishlist: true })
+    }
+  } else {
+    await Wishlist.create({
+      user,
+      wishlist: [{ product: req.params.id }],
+    })
+    res
+      .status(201)
+      .json({ message: 'Successfully added to wishlist', inWishlist: true })
   }
 })

@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 import { setUserFromLocalStorage } from './redux/user/userSlice'
 import SignInPage from './pages/SignInPage'
 import RegisterPage from './pages/RegisterPage'
-import UpdateProfilePage from './pages/UpdateProfilePage'
 import ShippingPage from './pages/ShippingPage'
 import PlaceOrder from './pages/PlaceOrder'
 import CartPage from './pages/CartPage'
@@ -26,6 +25,7 @@ import UserOrders from './pages/UserOrders'
 import OrderListPage from './pages/AdminPages/OrderListPage'
 import OrderDetailsPage from './pages/AdminPages/OrderDetailsPage'
 import AllProductsPage from './pages/AllProductsPage'
+import WishlistPage from './pages/WishlistPage'
 
 function App() {
   const dispatch = useDispatch()
@@ -56,10 +56,11 @@ function App() {
           <Route path='/product/:pid' element={<ProductPage exact />} />
           <Route path='/login' element={<SignInPage />} exact />
           <Route path='/register' element={<RegisterPage />} exact />
-          <Route path='/profile/update' element={<UpdateProfilePage />} />
+
           <Route path='/profile/orders' element={<UserOrders />} />
           <Route path='/profile' element={<ProfilePage />} exact />
-          <Route path='/profile/update' element={<UpdateProfilePage />} />
+          <Route path='/profile/wishlist' element={<WishlistPage />} exact />
+
           <Route path='/shipping' element={<ShippingPage />} exact />
           <Route path='/ordersummary' element={<OrderSummary />} exact />
           <Route path='/payment/:id' element={<PaymentPage />} exact />

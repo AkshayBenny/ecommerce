@@ -63,8 +63,9 @@ const OrderDetailsPage = () => {
             {adminUpdateOrderToDeliveredResIsLoading && <div>Loading...</div>}
           </div>
         </div>
-        <p className='mt-12 '>Name: {orderById?.userOrder?.user?.name}</p>
+        <p className='mt-12 '>Name: {orderById?.userOrder?.user?.fname} {orderById?.userOrder?.user?.lname}</p>
         <p>Email: {orderById?.userOrder?.user?.email}</p>
+        <p>Email: {orderById?.userOrder?.user?.phone}</p>
         <p>User ID:{orderById?.userOrder?.user?._id}</p>
         <div className='flex flex-wrap gap-3'>
           {orderById?.userOrder?.orderItems?.map((item, index) => {

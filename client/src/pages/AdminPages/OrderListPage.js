@@ -14,7 +14,6 @@ const OrderListPage = () => {
     dispatch(adminGetAllOrders())
   }, [])
 
-
   if (adminGetAllOrdersResIsLoading) {
     return <div>Loading...</div>
   }
@@ -29,7 +28,9 @@ const OrderListPage = () => {
               Order id: <span className='font-bold'>{order._id}</span>
             </p>
             <p>User id:{order.user._id}</p>
-            <p>Name:{order.user.name}</p>
+            <p>
+              Name:{order.user.fname} {order.user.lname}
+            </p>
             {/* <p>
               Address:{order.shippingAddress.address},
               {order.shippingAddress.city},{order.shippingAddress.country},

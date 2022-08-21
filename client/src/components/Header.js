@@ -7,7 +7,7 @@ import SearchBox from './SearchBox'
 import { useEffect } from 'react'
 import { getCart } from '../redux/cart/cartSlice'
 const Header = () => {
-  const { user } = useSelector((state) => state.user)
+  const user = JSON.parse(localStorage.getItem('userInfo'))
   const { cartItems } = useSelector((state) => state.cart)
   const dispatch = useDispatch()
   useEffect(() => {
@@ -31,7 +31,11 @@ const Header = () => {
               {cartItems?.length === 0 ? (
                 <></>
               ) : (
-                <div className='absolute top-[-6px] right-[-6px] w-4 h-4 bg-myPink rounded-full  text-white p-2 flex items-center justify-center font-semibold text-xs'>
+                <div
+                  className={`absolute top-[-6px] right-[-6px] w-4 h-4 ${
+                    cartItems?.length > 0 && 'bg-myPink'
+                  } rounded-full  text-white p-2 flex items-center justify-center font-semibold text-xs`}
+                >
                   <p>{cartItems && cartItems?.length}</p>
                 </div>
               )}

@@ -11,8 +11,10 @@ const UserPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [name, setName] = useState('')
+  const [fname, setFname] = useState('')
+  const [lname, setLname] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -32,7 +34,9 @@ const UserPage = () => {
 
   useEffect(() => {
     if (!getUserByIdIsLoading && userData.user) {
-      setName(userData.user.name)
+      setFname(userData.user.fname)
+      setLname(userData.user.lname)
+      setPhone(userData.user.phone)
       setEmail(userData.user.email)
       setIsAdmin(userData.user.isAdmin)
     }
@@ -46,7 +50,7 @@ const UserPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(editUser({ id, name, email, isAdmin }))
+    dispatch(editUser({ id, fname, lname, phone, email, isAdmin }))
   }
 
   if (getUserByIdIsLoading) {
@@ -55,8 +59,11 @@ const UserPage = () => {
 
   return (
     <div>
-      <h1>{userData?.user?.name}</h1>
+      <h1>
+        {userData?.user?.fname} {userData?.user?.lname}
+      </h1>
       <p>{userData?.user?.email}</p>
+      <p>{userData?.user?.phone}</p>
       <p>User id : {userData?.user?._id}</p>
       <p>Admin:{userData?.user?.isAdmin ? 'True' : 'False'}</p>
       <button onClick={deleteUserHandler} className='bg-black text-white p-2'>
@@ -67,11 +74,31 @@ const UserPage = () => {
 
       <form onSubmit={submitHandler} className='space-y-3 pt-4'>
         <div>
-          <label htmlFor='name'>Name</label>
+          <label htmlFor='name'>First Name</label>
           <input
             className='border p-2'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={fname}
+            onChange={(e) => setFname(e.target.value)}
+            type='text'
+            id='name'
+          />
+        </div>
+        <div>
+          <label htmlFor='name'>First Name</label>
+          <input
+            className='border p-2'
+            value={lname}
+            onChange={(e) => setLname(e.target.value)}
+            type='text'
+            id='name'
+          />
+        </div>
+        <div>
+          <label htmlFor='phone'>First Name</label>
+          <input
+            className='border p-2'
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             type='text'
             id='name'
           />

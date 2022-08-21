@@ -1,6 +1,7 @@
 import express from 'express'
 import {
   addReview,
+  addToWishlist,
   getAllProducts,
   getLatestProducts,
   getProductById,
@@ -10,6 +11,11 @@ import { protect } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
 //express-async-handler eliminates the repeated use of trycatch blocks
+
+// @desc Add  product to wishlist
+// @route POST /api/products/wishlist/:id
+// @access Private
+router.post('/wishlist/:id', protect, addToWishlist)
 
 // @desc Fetch all pro ducts
 // @route GET /api/products
@@ -25,7 +31,6 @@ router.route('/top').get(getTopProducts)
 // @route GET /api/products/latest
 // @access Public
 router.route('/latest').get(getLatestProducts)
-
 
 // @desc Fetch all products for admin
 // @route GET /api/products
