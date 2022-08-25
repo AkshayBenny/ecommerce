@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div className='App'>
-      <Header />
+      
       <main className='min-h-screen'>
         <Routes>
           <Route path='/search/:id' element={<HomePage />} exact />
@@ -58,8 +58,8 @@ function App() {
           <Route path='/register' element={<RegisterPage />} exact />
 
           <Route path='/profile/orders' element={<UserOrders />} />
-          <Route path='/profile' element={<ProfilePage />} exact />
           <Route path='/profile/wishlist' element={<WishlistPage />} exact />
+          <Route path='/profile' element={<ProfilePage />} exact />
 
           <Route path='/shipping' element={<ShippingPage />} exact />
           <Route path='/ordersummary' element={<OrderSummary />} exact />
@@ -93,7 +93,7 @@ function App() {
           />
         </Routes>
       </main>
-      <Footer />
+      
     </div>
   )
 }

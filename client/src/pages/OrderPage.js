@@ -1,18 +1,22 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   getOrderById,
   updateOrderPaymentStatus,
 } from '../redux/order/orderSlice'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { getCart } from '../redux/cart/cartSlice'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 const OrderPage = () => {
   const { id } = useParams()
   const { cartItems, total } = useSelector((state) => state.cart)
   const { orderById, oidLoading } = useSelector((state) => state.order)
   const { paymentMode } = useSelector((state) => state.order)
+  const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem('userInfo'))
   const [sdkReady, setSdkReady] = useState(false)
   const dispatch = useDispatch()
   useEffect(() => {
@@ -44,11 +48,16 @@ const OrderPage = () => {
     dispatch(updateOrderPaymentStatus({ id, paymentResult }))
   }
 
+  if (!user) {
+    navigate('/login')
+  }
+
   if (oidLoading) {
     return <div>Loading...</div>
   }
   return (
-    <div>
+    <>
+      <Header />
       <h1>Order Summary</h1>
       <p>Shipping Address: {orderById?.userOrder?.shippingAddress?.address}</p>
       <p>City: {orderById?.userOrder?.shippingAddress?.city}</p>
@@ -81,7 +90,8 @@ const OrderPage = () => {
           </>
         )}
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

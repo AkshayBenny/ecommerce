@@ -222,3 +222,24 @@ export const addToWishlist = asyncHandler(async (req, res) => {
       .json({ message: 'Successfully added to wishlist', inWishlist: true })
   }
 })
+
+// @desc Get wishlist
+// @route GET /api/products/wishlist
+// @access Private
+export const getWishlist = asyncHandler(async (req, res) => {
+  const user = req.user._id
+
+  try {
+    const userWishlist = await Wishlist.find({ user: user }).populate({
+      path: 'wishlist',
+      populate: {
+        path: 'product',
+        model: 'Product',
+      },
+    })
+
+    res.status(200).json({ userWishlist })
+  } catch (error) {
+    res.json({ message: 'Could not find wishlist', error })
+  }
+})

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import {
   adminDeleteProductById,
   getAllProductsAdmin,
@@ -41,7 +43,9 @@ const ProductListPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <p>ProductList</p>
       <Link to='create-product/'>
         <button className='p-2 bg-black mx-auto text-white mt-4'>
@@ -76,7 +80,8 @@ const ProductListPage = () => {
           )
         })}
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

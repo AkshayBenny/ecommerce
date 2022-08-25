@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { getAllUsers } from '../../redux/user/userSlice'
 
 const UserList = () => {
@@ -30,7 +32,9 @@ const UserList = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1>UserList</h1>
       <div className='space-y-3'>
         {userList?.map((user, index) => {
@@ -47,7 +51,8 @@ const UserList = () => {
           )
         })}
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

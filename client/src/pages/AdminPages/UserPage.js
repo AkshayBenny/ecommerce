@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { deleteUser, getUserById, editUser } from '../../redux/user/userSlice'
 
 const UserPage = () => {
@@ -58,7 +60,9 @@ const UserPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1>
         {userData?.user?.fname} {userData?.user?.lname}
       </h1>
@@ -142,7 +146,8 @@ const UserPage = () => {
           Update user
         </button>
       </form>
-    </div>
+      <Footer />
+    </>
   )
 }
 

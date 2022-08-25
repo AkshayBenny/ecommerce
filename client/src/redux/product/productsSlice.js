@@ -26,6 +26,8 @@ const initialState = {
   addToWishlistResIsLoading: false,
   addToWishlistRes: false,
   addToWishlistErr: {},
+  getWishlistResIsLoading: false,
+  getWishlistRes: [],
   isLoading: false,
   error: null,
 }
@@ -53,7 +55,7 @@ export const addToWishlist = createAsyncThunk(
 
 export const getWishlist = createAsyncThunk(
   'products/getWishlist',
-  async ({ pid }) => {
+  async () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
     const token = userInfo.token
     const config = {
@@ -63,9 +65,9 @@ export const getWishlist = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.post(
-      `http://localhost:5000/api/products/wishlist/${pid}`,
-      { pid },
+    const { data } = await axios.get(
+      `http://localhost:5000/api/products/wishlist`,
+
       config
     )
     return data
@@ -269,6 +271,16 @@ export const productSlice = createSlice({
       state.addToWishlistResIsLoading = false
       state.addToWishlistRes = false
       state.addToWishlistErr = action.payload
+    },
+    [getWishlist.pending]: (state) => {
+      state.getWishlistResIsLoading = true
+    },
+    [getWishlist.fulfilled]: (state, action) => {
+      state.getWishlistResIsLoading = false
+      state.getWishlistRes = action.payload.userWishlist[0].wishlist
+    },
+    [getWishlist.rejected]: (state, action) => {
+      state.getWishlistResIsLoading = false
     },
     [getLatestProducts.pending]: (state) => {
       state.latestProductsResIsLoading = true

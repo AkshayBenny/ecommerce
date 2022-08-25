@@ -23,7 +23,7 @@ const Header = () => {
       <div className='flex items-center gap-12'>
         <div className='flex justify-center items-center gap-9'>
           <div className='mr-6  text-gray-400'>
-            {user.isAdmin && <AdminDropDown />}
+            {user?.isAdmin && <AdminDropDown />}
           </div>
           <Link to='/cart'>
             <div className='relative  flex justify-center items-center gap-2'>

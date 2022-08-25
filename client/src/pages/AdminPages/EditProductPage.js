@@ -6,6 +6,8 @@ import {
   getProductByIdAdmin,
 } from '../../redux/product/productsSlice'
 import axios from 'axios'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 const EditProductPage = () => {
   const { id } = useParams()
@@ -101,7 +103,9 @@ const EditProductPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1 className='my-4 text-2xl text-bold'>Edit Product Page</h1>
 
       <form onSubmit={submitHandler} className=' flex flex-col gap-5'>
@@ -211,7 +215,8 @@ const EditProductPage = () => {
           <button className='bg-black p-3 text-white'>Update product</button>
         )}
       </form>
-    </div>
+      <Footer />
+    </>
   )
 }
 

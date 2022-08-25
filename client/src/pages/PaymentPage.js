@@ -40,9 +40,8 @@ const PaymentPage = () => {
             }
 
             dispatch(updateOrderPaymentStatus(payload))
-            // if (!upsLoading) {
-            //   navigate('/')
-            // }
+
+            navigate('/')
           },
           prefill: {
             name: 'example name',
@@ -69,7 +68,7 @@ const PaymentPage = () => {
     loadRazorpay()
   }, [])
 
-  return <div>PaymentPage</div>
+  return <div></div>
 }
 
 export default PaymentPage

@@ -53,6 +53,7 @@ export const getCart = createAsyncThunk('cart/getCart', async () => {
   localStorage.setItem('cart', JSON.stringify(data))
   return data
 })
+
 export const deleteCartItem = createAsyncThunk(
   'cart/deleteCartItem',
   async ({ pid }) => {

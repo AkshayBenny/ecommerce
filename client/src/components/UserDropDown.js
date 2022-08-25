@@ -1,9 +1,10 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { LoginIcon } from '@heroicons/react/solid'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { logOut } from '../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
+import { getCart } from '../redux/cart/cartSlice'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -12,6 +13,7 @@ function classNames(...classes) {
 export default function UserDropDown() {
   const user = JSON.parse(localStorage.getItem('userInfo'))
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   return (
     <Menu as='div' className='relative inline-block text-left'>
@@ -32,7 +34,7 @@ export default function UserDropDown() {
       >
         <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none '>
           <div className='py-1'>
-            {user.fname && (
+            {user?.fname && (
               <Menu.Item className='px-4 pb-4'>
                 {({ active }) => (
                   <p
@@ -46,14 +48,14 @@ export default function UserDropDown() {
                         Signed in as
                       </p>
                       <p className=''>
-                        {user.fname} {user.lname}
+                        {user?.fname} {user?.lname}
                       </p>
                     </div>
                   </p>
                 )}
               </Menu.Item>
             )}
-            {user.fname && (
+            {user?.fname && (
               <Menu.Item>
                 {({ active }) => (
                   <Link
@@ -79,11 +81,12 @@ export default function UserDropDown() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  {user.fname ? (
+                  {user?.fname ? (
                     <div
                       onClick={() => {
                         dispatch(logOut())
                         localStorage.removeItem('userInfo')
+                        navigate('/')
                       }}
                     >
                       <p className=''>Sign out</p>

@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { adminCreateProduct } from '../../redux/product/productsSlice'
 
 const CreateProduct = () => {
@@ -64,7 +66,9 @@ const CreateProduct = () => {
   }, [adminCreatedProduct])
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1 className='my-4 text-2xl text-bold'>Edit Product Page</h1>
       <form onSubmit={submitHandler} className=' flex flex-col gap-5'>
         <div>
@@ -168,7 +172,8 @@ const CreateProduct = () => {
         </div>
         <button className='bg-black p-3 text-white'>Create product</button>
       </form>
-    </div>
+      <Footer />
+    </>
   )
 }
 

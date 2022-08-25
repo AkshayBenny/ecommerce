@@ -10,6 +10,8 @@ import {
 } from '../redux/product/productsSlice'
 import Meta from '../components/Meta'
 import { getCart } from '../redux/cart/cartSlice'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const AllProductsPage = () => {
   const {
@@ -52,6 +54,7 @@ const AllProductsPage = () => {
 
   return (
     <>
+      <Header />
       <Meta />
 
       <div className='grid md:grid-cols-2 xl:grid-cols-3 '>
@@ -82,6 +85,7 @@ const AllProductsPage = () => {
             })}
         </div>
       </div>
+      <Footer />
     </>
   )
 }

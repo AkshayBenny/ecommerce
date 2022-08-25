@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import {
   adminUpdateOrderToDelivered,
   getOrderById,
@@ -25,11 +27,13 @@ const OrderDetailsPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1 className='text-3xl'>Order Details Page</h1>
       <div className='space-y-6'>
-        <p className='text-xl'>j
-          Order ID:
+        <p className='text-xl'>
+          j Order ID:
           <span className='font-bold'>{orderById?.userOrder?._id}</span>
         </p>
         <div className='flex justify-between'>
@@ -47,7 +51,6 @@ const OrderDetailsPage = () => {
                   ? orderById.userOrder.paidAt.substring(0, 10)
                   : 'false'}
               </span>
-              
             </p>
           </div>
           <div>
@@ -63,7 +66,10 @@ const OrderDetailsPage = () => {
             {adminUpdateOrderToDeliveredResIsLoading && <div>Loading...</div>}
           </div>
         </div>
-        <p className='mt-12 '>Name: {orderById?.userOrder?.user?.fname} {orderById?.userOrder?.user?.lname}</p>
+        <p className='mt-12 '>
+          Name: {orderById?.userOrder?.user?.fname}{' '}
+          {orderById?.userOrder?.user?.lname}
+        </p>
         <p>Email: {orderById?.userOrder?.user?.email}</p>
         <p>Email: {orderById?.userOrder?.user?.phone}</p>
         <p>User ID:{orderById?.userOrder?.user?._id}</p>
@@ -82,7 +88,8 @@ const OrderDetailsPage = () => {
           })}
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCart } from '../redux/cart/cartSlice'
 import { createOrder } from '../redux/order/orderSlice'
 import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const OrderSummary = () => {
   const dispatch = useDispatch()
@@ -10,6 +12,8 @@ const OrderSummary = () => {
     useSelector((state) => state.order)
   const { cartItems, total } = useSelector((state) => state.cart)
   const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'))
+  const user = JSON.parse(localStorage.getItem('userInfo'))
+
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getCart())
@@ -54,6 +58,10 @@ const OrderSummary = () => {
     }
   }, [order])
 
+  if (!user) {
+    navigate('/login')
+  }
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -63,24 +71,58 @@ const OrderSummary = () => {
   }
 
   return (
-    <div>
-      <h1>Order Summary</h1>
-      <p>Shipping Address: {shippingDetails?.address}</p>
-      <p>City: {shippingDetails?.city}</p>
-      <p>Postal Code: {shippingDetails?.postalCode}</p>
-      <p>Country: {shippingDetails?.country}</p>
-      <p>Total Price:{total}</p>
-      <p>Payment Mode: {paymentMode}</p>
+    <>
+      <Header />
+      <h1 className='text-3xl font-light  mt-14 px-12'>Order summary</h1>
+      <div className='space-y-4'>
+        <div>
+          <p className='text-xl font-light  mt-14 px-12'>Shipping Address</p>
+          <p className='font-medium text-lg px-12'>
+            {shippingDetails?.address}
+          </p>
+        </div>
+        <div>
+          <p className='text-xl font-light  mt-2 px-12'>City</p>
+          <p className='font-medium text-lg px-12'>{shippingDetails?.city}</p>
+        </div>
+        <div>
+          <p className='text-xl font-light  mt-2 px-12'>Postal Code</p>
+          <p className='font-medium text-lg px-12'>
+            {shippingDetails?.postalCode}
+          </p>
+        </div>
+        <div>
+          <p className='text-xl font-light  mt-2 px-12'>Country</p>
+          <p className='font-medium text-lg px-12'>
+            {shippingDetails?.country}
+          </p>
+        </div>
+        <div>
+          <p className='text-xl font-light  mt-2 px-12'>Total Price</p>
+          <p className='font-medium text-lg px-12'>{total} ₹</p>
+        </div>
+        <div>
+          <p className='text-xl font-light  mt-2 px-12'>Payment Mode</p>
+          <p className='font-medium text-lg px-12'>{paymentMode}</p>
+        </div>
+      </div>
 
-      <button
-        disabled={createOrderIsLoading}
-        className='bg-black text-white px-4 py-2 cursor-pointer'
-        onClick={clickHandler}
-      >
-        Place order
-      </button>
+      <div className='px-12'>
+        <button
+          onClick={clickHandler}
+          disabled={createOrderIsLoading}
+          className='mt-12 relative inline-block px-6 py-4 font-medium group mx-auto'
+        >
+          <span className='absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0'></span>
+          <span className='absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black'></span>
+          <span className='relative text-black group-hover:text-white'>
+            Place order
+          </span>
+        </button>
+      </div>
       {createOrderIsLoading && <p>Loading...</p>}
-    </div>
+      <Footer />
+    </>
   )
 }
 

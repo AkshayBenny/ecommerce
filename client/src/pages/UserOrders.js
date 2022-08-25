@@ -1,6 +1,8 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import { getOrderByUserId } from '../redux/order/orderSlice'
 
 const UserOrders = () => {
@@ -22,7 +24,9 @@ const UserOrders = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1>UserOrders</h1>
       <div className='space-y-4'>
         {orders?.map((order, index) => {
@@ -50,7 +54,8 @@ const UserOrders = () => {
           )
         })}
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

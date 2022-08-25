@@ -12,6 +12,8 @@ import Meta from '../components/Meta'
 import TopProducts from '../components/TopProducts'
 import { getCart } from '../redux/cart/cartSlice'
 import LatestProducts from '../components/LatestProducts'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const HomePage = () => {
   const {
@@ -55,6 +57,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Header />
       <Meta />
       <div>
         {topProductsRes.products ? (
@@ -143,6 +146,7 @@ const HomePage = () => {
           </span>
         </Link>
       </div>
+      <Footer />
     </>
   )
 }

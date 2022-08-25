@@ -2,6 +2,8 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { adminGetAllOrders } from '../../redux/order/orderSlice'
 
 const OrderListPage = () => {
@@ -19,7 +21,9 @@ const OrderListPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Header />
+
       <h1>OrderList</h1>
       {adminGetAllOrdersRes?.allOrders?.map((order, index) => {
         return (
@@ -44,7 +48,8 @@ const OrderListPage = () => {
           </div>
         )
       })}
-    </div>
+      <Footer />
+    </>
   )
 }
 

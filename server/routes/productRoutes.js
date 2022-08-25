@@ -6,6 +6,7 @@ import {
   getLatestProducts,
   getProductById,
   getTopProducts,
+  getWishlist,
 } from '../controllers/productController.js'
 import { protect } from '../middleware/authMiddleware.js'
 const router = express.Router()
@@ -16,6 +17,11 @@ const router = express.Router()
 // @route POST /api/products/wishlist/:id
 // @access Private
 router.post('/wishlist/:id', protect, addToWishlist)
+
+// @desc Get wishlist
+// @route GET /api/products/wishlist
+// @access Private
+router.get('/wishlist', protect, getWishlist)
 
 // @desc Fetch all pro ducts
 // @route GET /api/products
