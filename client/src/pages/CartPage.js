@@ -6,18 +6,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import Meta from '../components/Meta'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { getWishlist } from '../redux/product/productsSlice'
 
 const CartPage = () => {
   const { cartItems, total, isLoading, deleteCartRes } = useSelector(
     (state) => state.cart
+  )
+  const { getWishlistResIsLoading, getWishlistRes } = useSelector(
+    (state) => state.products
   )
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('userInfo'))
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // dispatch(getCart())
-  }, [dispatch])
+    dispatch(getCart())
+    dispatch(getWishlist())
+  }, [dispatch, deleteCartRes])
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +35,15 @@ const CartPage = () => {
   }
 
   if (!cartItems || cartItems.length === 0) {
-    return <div>No items in cart</div>
+    return (
+      <>
+        <Header />
+        <Meta title={'Wishlist'} />
+        <div className='flex items-center justify-center w-screen h-screen'>
+          <p className='text-3xl font-light'>No items in cart</p>
+        </div>
+      </>
+    )
   }
 
   if (cartItems && cartItems.length > 0) {

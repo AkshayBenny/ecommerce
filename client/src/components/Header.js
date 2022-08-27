@@ -10,9 +10,7 @@ const Header = () => {
   const user = JSON.parse(localStorage.getItem('userInfo'))
   const { cartItems } = useSelector((state) => state.cart)
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getCart())
-  }, [dispatch])
+
 
   return (
     <header className='sticky top-0 flex justify-between items-center h-14 z-50 bg-white text-black px-4 border-b  uppercase'>

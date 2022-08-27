@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteCartItem } from '../redux/cart/cartSlice'
-import { addToWishlist } from '../redux/product/productsSlice'
+import { addToWishlist, getWishlist } from '../redux/product/productsSlice'
 
-const CartProduct = ({ product, userCartItem, index }) => {
+const CartProduct = ({ product, userCartItem, index, setReload }) => {
   const { deleteCartResIsLoading } = useSelector((state) => state.cart)
-  const { addToWishlistRes, addToWishlistResIsLoading } = useSelector(
-    (state) => state.products
-  )
+
   const [quantity, setQuantity] = useState(userCartItem.quantity)
-  const [addedToWishlist, setAddedToWishlist] = useState(addToWishlistRes)
   const dispatch = useDispatch()
+
   const deleteHandler = () => {
     const pid = product._id
     if (userCartItem._id) {
@@ -21,10 +20,9 @@ const CartProduct = ({ product, userCartItem, index }) => {
     const pid = product._id
     if (userCartItem._id) {
       dispatch(addToWishlist({ pid }))
-      setAddedToWishlist(!addedToWishlist)
+      setReload((prev) => !prev)
     }
   }
-
   return (
     <div className='flex flex-col lg:flex-row w-full my-6 lg:my-0'>
       <div className='lg:flex  jusity-between gap-4  w-full'>
@@ -71,17 +69,12 @@ const CartProduct = ({ product, userCartItem, index }) => {
           </div>
 
           <div className=' flex gap-2'>
-            <button
-              disabled={addToWishlistResIsLoading}
+            {/* <button
               onClick={wishlistHandler}
               className='bg-myPurple text-white p-3'
             >
-              {addToWishlistRes ? (
-                <p>Remove from wishlist</p>
-              ) : (
-                <p>Add to wishlist</p>
-              )}
-            </button>
+              <p>Add to Wishlist</p>
+            </button> */}
             <button
               disabled={deleteCartResIsLoading}
               onClick={deleteHandler}

@@ -1,14 +1,20 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addToWishlist } from '../redux/product/productsSlice'
+import { addToWishlist, getWishlist } from '../redux/product/productsSlice'
 
-const WishlistProduct = ({ product, index }) => {
+const WishlistProduct = ({ product, index, setReload }) => {
+  const { addToWishlistRes } = useSelector((state) => state.products)
+
   const dispatch = useDispatch()
+
   const removeHandler = () => {
     const pid = product._id
     dispatch(addToWishlist({ pid }))
+    dispatch(getWishlist())
+    setReload((prev) => !prev)
   }
+
   return (
     <div className=' border flex lg:flex-row flex-col  w-full my-6 lg:my-0'>
       <div className='lg:flex  jusity-between gap-4  '>

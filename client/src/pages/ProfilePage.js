@@ -39,13 +39,13 @@ const ProfilePage = () => {
       <Header />
       <div className='w-full '>
         <div className='flex w-full items-center justify-center '>
-          <Link to='wishlist' className='w-full h-full group'>
-            <div className='bg-myPurple  flex items-center justify-center uppercase  text-white  cursor-pointer w-full h-full lg:min-h-[400px]'>
+          {/* <Link to='wishlist' className='w-full h-full group'> */}
+            <div className='bg-myPurple cursor-not-allowed  flex items-center justify-center uppercase  text-white  w-full h-full lg:min-h-[400px]'>
               <p className='text-3xl font-medium group-hover:scale-90 transition'>
-                Wishlist
+                Wishlist (Under development)
               </p>
             </div>
-          </Link>
+          {/* </Link> */}
           <Link to='orders' className='w-full h-full group'>
             <div className='bg-myPink  flex items-center justify-center uppercase  text-white  cursor-pointer w-full h-full lg:min-h-[400px]'>
               <p className='text-3xl font-medium group-hover:scale-90 transition'>

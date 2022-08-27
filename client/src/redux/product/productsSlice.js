@@ -24,7 +24,7 @@ const initialState = {
   adminProductByIdIsLoading: false,
   allProductsAdminIsLoading: false,
   addToWishlistResIsLoading: false,
-  addToWishlistRes: false,
+  addToWishlistRes: true,
   addToWishlistErr: {},
   getWishlistResIsLoading: false,
   getWishlistRes: [],
@@ -263,13 +263,13 @@ export const productSlice = createSlice({
     [addToWishlist.pending]: (state) => {
       state.addToWishlistResIsLoading = true
     },
-    [addToWishlist.fulfilled]: (state) => {
+    [addToWishlist.fulfilled]: (state, action) => {
       state.addToWishlistResIsLoading = false
-      state.addToWishlistRes = true
+      state.addToWishlistRes = action.payload.inWishlist
     },
     [addToWishlist.rejected]: (state, action) => {
       state.addToWishlistResIsLoading = false
-      state.addToWishlistRes = false
+      state.addToWishlistRes = action.payload.inWishlist
       state.addToWishlistErr = action.payload
     },
     [getWishlist.pending]: (state) => {

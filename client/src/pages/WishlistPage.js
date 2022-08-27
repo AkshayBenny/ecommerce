@@ -13,18 +13,29 @@ const WishlistPage = () => {
   const { getWishlistResIsLoading, getWishlistRes } = useSelector(
     (state) => state.products
   )
+  const [reload, setReload] = useState(false)
   useEffect(() => {
     dispatch(getWishlist())
-  }, [dispatch])
+  }, [reload])
 
   if (getWishlistResIsLoading) {
     return <div>Loading...</div>
   }
 
   if (!getWishlistRes || getWishlistRes?.length === 0) {
-    return <div>You have not added any product yet</div>
+    return (
+      <>
+        <Header />
+        <Meta title={'Wishlist'} />
+        <div className='flex items-center justify-center w-screen h-screen'>
+          <p className='text-3xl font-light'>
+            You have not added any product to your wishlist yet
+          </p>
+        </div>
+      </>
+    )
   }
-
+  
   return (
     <>
       <Header />
@@ -38,6 +49,7 @@ const WishlistPage = () => {
               key={index}
               product={product?.product}
               index={index}
+              setReload={setReload}
             />
           )
         })}
