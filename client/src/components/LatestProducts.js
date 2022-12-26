@@ -1,4 +1,3 @@
-import React from 'react'
 
 const LatestProducts = ({ products }) => {
   console.log(products)

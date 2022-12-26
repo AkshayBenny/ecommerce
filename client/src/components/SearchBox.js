@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useState } from 'react'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useNavigate } from 'react-router-dom'
